@@ -12,7 +12,7 @@ from abc import ABCMeta
 
 
 class Task(metaclass=ABCMeta):
-    def __init__(self,software):
+    def __init__(self, software):
         self._software = software
 
     def cmd_version(self):

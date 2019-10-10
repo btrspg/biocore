@@ -15,8 +15,9 @@ from biocores.softwares.default import *
 
 
 class Fastqc(Task):
-    def __init__(self, container):
-        super(Fastqc, self).__init__(container,'fastqc')
+    def __init__(self, software,fd):
+        super(Fastqc, self).__init__(software)
+        self._default=fd
         # self._environment is exec for docker container
 
 
@@ -26,9 +27,8 @@ class Fastqc(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{environment} {software} -v'.format(
+        return 'echo {repr} ;{software} -v'.format(
             repr=self.__repr__(),
-            environment=self._environment,
             software=self._software
         )
 
@@ -39,20 +39,16 @@ class Fastqc(Task):
         :param fq:
         :return:
         '''
-
-        output_dirs = utils.string_dirs(' ', *utils.dirs_for_dirs(outdir))
         return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} -o {outdir} {fq1} {fq2}'        
+{software} -o {outdir} {fq1} {fq2}      
         '''.format(
-            environment=self._environment,
-            mkdir_paras=MKDIR_DEFAULT,
+            mkdir_paras=self._default.default,
             software=self._software,
             **locals()
         )
 
     def __repr__(self):
-        return 'fastqc:' + self._environment
+        return 'fastqc:' + self._software
 
     def __str__(self):
         return 'A quality control tool for high throughput sequence data.'

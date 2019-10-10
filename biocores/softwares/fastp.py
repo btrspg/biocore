@@ -11,25 +11,20 @@ from __future__ import absolute_import, unicode_literals
 
 from biocores import utils
 from biocores.bases.tasks import Task
-from biocores.softwares.default import *
 
 
 class Fastp(Task):
-    def __init__(self, container):
-        super(Fastp, self).__init__(container,'fastp')
-        # self._environment is exec for docker container
-        self._paras = FASTP_DEFAULT
-        self._zcat = 'zcat'
-
+    def __init__(self, software, fd):
+        super(Fastp, self).__init__(software)
+        self._default = fd
 
     def cmd_version(self):
         '''
 
         :return:
         '''
-        return 'echo {repr} ;{environment} {software} --version|grep version'.format(
+        return 'echo {repr} ;{software} --version|grep version'.format(
             repr=self.__repr__(),
-            environment=self._environment,
             software=self._software
         )
 
@@ -47,60 +42,27 @@ class Fastp(Task):
         output_dirs = utils.string_dirs(' ', *utils.dirs_for_file(cfq1, report_prefix))
         if fq2 == '':
             return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {fastp_paras} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json'   
-            '''.format(environment=self._environment,
-                       fastp_paras=self._paras,
-                       software=self._software,
-                       mkdir_paras=MKDIR_DEFAULT,
-                       zcat=self._zcat,
-                       **locals())
+{software} {fastp_paras} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
+            --json {report_prefix}.fastp.json   
+            '''.format(
+                fastp_paras=self._default.default,
+                software=self._software,
+                fq1=fq1,
+                cfq1=cfq1,
+                report_prefix=report_prefix
+            )
         else:
             return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {fastp_paras} -i {fq1} -I {fq2} -o {cfq1} -O {cfq2} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json' 
+{software} {fastp_paras} -i {fq1} -I {fq2} -o {cfq1} -O {cfq2} --html {report_prefix}.fastp.html \
+            --json {report_prefix}.fastp.json 
             '''.format(
-                environment=self._environment,
-                fastp_paras=self._paras,
+
+                fastp_paras=self._default.default,
                 software=self._software,
-                mkdir_paras=MKDIR_DEFAULT,
-                zcat=self._zcat,
                 **locals())
 
-    @classmethod
-    def get_paras_for_clean_data(cls, paras, config):
-        '''
-        from paras and config to get special paras
-        :param paras:
-        :param config:
-        :return:
-        '''
-        if 'fq' in paras.keys() and 'clean_fq' in paras.keys():
-            fq1 = paras['fq']
-            fq2 = ''
-            cfq1 = paras['clean_fq']
-            cfq2 = ''
-        elif 'fq1' in paras.keys() and 'fq2' in paras.keys() \
-                and 'clean_fq1' in paras.keys() and 'clean_fq2' in paras.keys():
-            fq1 = paras['fq1']
-            fq2 = paras['fq2']
-            cfq1 = paras['cfq1']
-            cfq2 = paras['cfq2']
-        else:
-            raise ValueError('Without fq/fq1/fq2 parameters')
-        report_prefix = paras['fastp_qc_prefix'] if 'fastp_qc_prefix' in paras.keys() else 'fastp'
-        return {
-            'fq1': fq1,
-            'fq2': fq2,
-            'cfq1': cfq1,
-            'cfq2': cfq2,
-            'report_prefix': report_prefix
-        }
-
     def __repr__(self):
-        return 'fastp:' + self._environment
+        return 'fastp:' + self._software
 
     def __str__(self):
         return 'A tool designed to provide fast all-in-one preprocessing for FastQ files. This tool is developed ' \
