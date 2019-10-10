@@ -13,9 +13,9 @@ from biocores import utils
 from biocores.bases.tasks import Task
 
 
-class Fastp(Task):
+class Hisat2(Task):
     def __init__(self, software, fd):
-        super(Fastp, self).__init__(software)
+        super(Hisat2, self).__init__(software)
         self._default = fd
 
     def cmd_version(self):
@@ -23,12 +23,12 @@ class Fastp(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{software} --version|grep version'.format(
+        return 'echo {repr} ;{software} 2>&1|grep Version'.format(
             repr=self.__repr__(),
             software=self._software
         )
 
-    def cmd_clean_data(self, fq1, cfq1, fq2, cfq2, report_prefix):
+    def cmd_clean_data(self,hisat2_idx, fq1, fq2, summary , samtools,samtools_idx):
         '''
 
         :param fq1:
@@ -38,33 +38,26 @@ class Fastp(Task):
         :param report_prefix:
         :return:
         '''
-        if fq2 == '':
-            return r'''
-{software} {fastp_paras} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json   
-            '''.format(
-                fastp_paras=self._default.default,
-                software=self._software,
-                fq1=fq1,
-                cfq1=cfq1,
-                report_prefix=report_prefix
-            )
-        else:
-            return r'''
-{software} {fastp_paras} -i {fq1} -I {fq2} -o {cfq1} -O {cfq2} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json 
-            '''.format(
 
-                fastp_paras=self._default.default,
-                software=self._software,
-                **locals())
+        return r'''
+{hisat2} {align_paras} -x {hisat2_idx} -1 {fq1} -2 {fq2} --summary-file {summary} | {samtools_sam2bam} | {samtools_sort}
+{samtools_index}
+ 
+            '''.format(
+                align_paras=self._default.align,
+                hisat2=self._software,
+
+
+
+
+            )
+
 
     def __repr__(self):
         return 'fastp:' + self._software
 
     def __str__(self):
-        return 'A tool designed to provide fast all-in-one preprocessing for FastQ files. This tool is developed ' \
-               'in C++ with multithreading supported to afford high performance.'
+        return 'graph-based alignment of next generation sequencing reads to a population of genomes'
 
 
 def test():

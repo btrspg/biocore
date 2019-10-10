@@ -8,12 +8,38 @@
 # @Software: PyCharm
 
 from __future__ import absolute_import, unicode_literals
-
-# mkdir
-MKDIR_DEFAULT = ' -m 775 -p '
+from collections import namedtuple
 
 # fastp
-FASTP_DEFAULT = ' -c '
+fastpDefault = namedtuple('fastpDefault', ['default'])
+fastpDefault.default = ' -c '
+
+# mkdir
+mkdirDefault = namedtuple('mkdirDefault', ['default'])
+mkdirDefault.default = ' -p '
+
+# fastqc
+fastqcDefault = namedtuple('fastqcDefault', ['default'])
+fastqcDefault.default = ''
+
+
+# star
+starDefault = namedtuple('starDefault',['align','nt','rl'])
+starDefault.align='--outSAMstrandField intronMotif --readFilesCommand zcat \
+     --outSAMtype BAM SortedByCoordinate'
+starDefault.nt=8
+starDefault.rl=99
+
+# hisat2
+hisat2Default = namedtuple('hisat2Default',['align'])
+hisat2Default.align =' --dta -5 10 -3 10 '
+
+
+# samtools
+samtoolsDefault = namedtuple('samtools',['sam2bam','sort','index'])
+samtoolsDefault.sam2bam=' view -bSt '
+samtoolsDefault.sort=' sort '
+samtoolsDefault.index=' index '
 
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
@@ -92,7 +118,6 @@ VEP_ANNOTATION_DEFAULT = '--format vcf --cache --offline --force_overwrite --sif
                          '--polyphen b --numbers --biotype --total_length --canonical --ccds --hgvs ' \
                          '-q --refseq --offline --vcf --af_1kg --af --pubmed --plugin MMSplice --af_gnomad '
 
-
 # ANNOVAR
 
 ANNOVAR_ANNOTATION_DEFAULT = '-remove -protocol refGene,cytoBand,exac03,ALL.sites.2015_08,EAS.sites.2015_08,' \
@@ -111,9 +136,9 @@ ANNOVAR_ANNOTATION_DEFAULT = '-remove -protocol refGene,cytoBand,exac03,ALL.site
                              '--otherinfo'
 
 ANNOVAR_ANNOTATION_SIMPLE = '-remove -protocol refGene,cytoBand,exac03,ALL.sites.2015_08,EAS.sites.2015_08,' \
-                           'esp6500siv2_all,regsnpintron,spidex,dbscsnv11,dbnsfp33a,clinPred,rmsk,' \
-                           'intervar_20180118,gnomad_genome,gnomad_20190215,revel_20190527 ' \
-                           '-operation g,r,f,f,f,f,f,f,f,f,f,f,f,f,f,f'
+                            'esp6500siv2_all,regsnpintron,spidex,dbscsnv11,dbnsfp33a,clinPred,rmsk,' \
+                            'intervar_20180118,gnomad_genome,gnomad_20190215,revel_20190527 ' \
+                            '-operation g,r,f,f,f,f,f,f,f,f,f,f,f,f,f,f'
 
 # TREDPARSE
 
@@ -126,8 +151,8 @@ TREDREPORT_DEFAULT = ' --cpus 4 --ref hg19_nochr '
 # BCL2FASTQ2
 
 BCL2FASTQ2_DEFAULT = '--create-fastq-for-index-reads --no-lane-splitting  ' \
-                    '--with-failed-reads --ignore-missing-bcls ' \
-                    '--ignore-missing-filter --ignore-missing-positions'
+                     '--with-failed-reads --ignore-missing-bcls ' \
+                     '--ignore-missing-filter --ignore-missing-positions'
 
 # MAIL RECEIVERS
 

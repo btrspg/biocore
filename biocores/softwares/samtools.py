@@ -13,9 +13,9 @@ from biocores import utils
 from biocores.bases.tasks import Task
 
 
-class Fastp(Task):
+class Samtools(Task):
     def __init__(self, software, fd):
-        super(Fastp, self).__init__(software)
+        super(Samtools, self).__init__(software)
         self._default = fd
 
     def cmd_version(self):
@@ -23,48 +23,65 @@ class Fastp(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{software} --version|grep version'.format(
+        return 'echo {repr} ;{software} 2>&1|grep Version'.format(
             repr=self.__repr__(),
             software=self._software
         )
 
-    def cmd_clean_data(self, fq1, cfq1, fq2, cfq2, report_prefix):
+    def cmd_sam2bam(self, samtools_idx,samfile,bamfile=None):
         '''
 
-        :param fq1:
-        :param cfq1:
-        :param fq2:
-        :param cfq2:
-        :param report_prefix:
+        :param samtools_idx:
+        :param samfile:
+        :param bamfile:
         :return:
         '''
-        if fq2 == '':
-            return r'''
-{software} {fastp_paras} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json   
-            '''.format(
-                fastp_paras=self._default.default,
-                software=self._software,
-                fq1=fq1,
-                cfq1=cfq1,
-                report_prefix=report_prefix
-            )
+        if None==bamfile:
+            bamfile=''
         else:
-            return r'''
-{software} {fastp_paras} -i {fq1} -I {fq2} -o {cfq1} -O {cfq2} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json 
+            bamfile='-o '+bamfile
+        return r'''
+{samtools} {sam2bam_paras} {samtools_idx} {samfile} {bamfile}
             '''.format(
-
-                fastp_paras=self._default.default,
-                software=self._software,
+                sam2bam_paras=self._default.sam2bam,
+                samtools=self._software,
                 **locals())
 
+    def cmd_sort(self,bamfile,sortbam=None):
+        '''
+
+        :return:
+        '''
+        if None==sortbam:
+            sortbam=''
+        else:
+            sortbam='-o '+sortbam
+        return r'''
+{samtools} {sort_paras} {bamfile} {sortbam}        
+        '''.format(
+            samtools=self._software,
+            sort_paras=self._default.sort,
+            **locals())
+
+    def cmd_index(self, bamfile):
+        '''
+
+        :param bamfile:
+        :return:
+        '''
+        return r'''
+{samtools} {index_paras} {bamfile}        
+            '''.format(
+            samtools=self._software,
+            index_paras=self._default.index,
+            **locals())
+
     def __repr__(self):
-        return 'fastp:' + self._software
+        return 'samtools:' + self._software
 
     def __str__(self):
-        return 'A tool designed to provide fast all-in-one preprocessing for FastQ files. This tool is developed ' \
-               'in C++ with multithreading supported to afford high performance.'
+        return 'SAM Tools provide various utilities for manipulating alignments in the SAM format, ' \
+               'including sorting, merging, indexing and generating alignments in a per-position format.'
 
 
 def test():
