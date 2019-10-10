@@ -1,0 +1,10 @@
+
+# pycharm files
+.idea/
+
+# demo data
+demo/*
+
+# test
+
+.pytest_cache/
