@@ -43,8 +43,16 @@ samtoolsDefault.index=' index '
 
 
 # stringtie
-stringtieDefault = namedtuple('stringtieDefault',['nt'])
+stringtieDefault = namedtuple('stringtieDefault',['nt','merge'])
 stringtieDefault.nt=16
+stringtieDefault.merge='--merge -m 200 -F 0 -T 0 -l STM '
+
+
+# trinity
+trinityDefault = namedtuple('trinityDefault',['default','nt','memory'])
+trinityDefault.memory='100G'
+trinityDefault.nt=16
+trinityDefault.default='--seqType fq --full_cleanup'
 
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
