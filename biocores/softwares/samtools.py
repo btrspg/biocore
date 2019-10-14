@@ -9,7 +9,6 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from biocores import utils
 from biocores.bases.tasks import Task
 
 

@@ -28,14 +28,16 @@ class Hisat2(Task):
             software=self._software
         )
 
-    def cmd_clean_data(self,hisat2_idx, fq1, fq2, summary , samtools,samtools_idx):
+    def cmd_align(self,hisat2_idx, fq1, fq2, summary , samtools,samtools_idx,outbam):
         '''
 
+        :param hisat2_idx:
         :param fq1:
-        :param cfq1:
         :param fq2:
-        :param cfq2:
-        :param report_prefix:
+        :param summary:
+        :param samtools:
+        :param samtools_idx:
+        :param outbam:
         :return:
         '''
 
@@ -44,40 +46,26 @@ class Hisat2(Task):
 {samtools_index}
  
             '''.format(
-                align_paras=self._default.align,
-                hisat2=self._software,
-
-
-
-
+            hisat2=self._software,
+            align_paras=self._default.align,
+            samtools_sam2bam=samtools.cmd_sam2bam(samtools_idx,'-',bamfile=None),
+            samtools_sort=samtools.cmd_sort('-',sortbam=outbam),
+            samtools_index=samtools.cmd_index(outbam),
+            **locals()
             )
 
 
     def __repr__(self):
-        return 'fastp:' + self._software
+        return 'hisat2:' + self._software
 
     def __str__(self):
         return 'graph-based alignment of next generation sequencing reads to a population of genomes'
 
 
-def test():
-    fastp = Fastp('pipeline')
-    print(fastp.cmd_version())
-    print(fastp.cmd_clean_data('/opt/tmp/test/AS2818.clean.1.fq.gz',
-                               '/opt/tmp/test/testpe.clean.1.fq.gz',
-                               '/opt/tmp/test/AS2818.clean.2.fq.gz',
-                               '/opt/tmp/test/testpe.clean.2.fq.gz',
-                               '/opt/tmp/test/testpe'))
-    print(fastp.cmd_clean_data('/opt/tmp/test/AS2818.clean.1.fq.gz',
-                               '/opt/tmp/test/testse.clean.1.fq.gz',
-                               '',
-                               '',
-                               '/opt/tmp/test/test-se'))
 
 
 def main():
-    test()
-
+    pass
 
 if __name__ == '__main__':
     main()
