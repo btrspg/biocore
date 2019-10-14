@@ -31,5 +31,5 @@ class TestStringtie(TestCase):
         gtf='1.gtf'
         gtfs=['1.gtf','2.gtf','3.gtf']
         output='/path/to/output.gtf'
-        self.assertIsInstance(self.stringtie.cmd_merge_gtf(self,gtf,output))
-        self.assertIsInstance(self.stringtie.cmd_merge_gtf(self, gtfs, output))
+        self.assertIsInstance(self.stringtie.cmd_merge_gtf(gtf,output),str,msg='is str for command')
+        self.assertIsInstance(self.stringtie.cmd_merge_gtf(gtfs, output),str,msg='is str for command')

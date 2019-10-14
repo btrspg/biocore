@@ -41,7 +41,8 @@ class Stringtie(Task):
             stringtie=self._software,
             bams = bams if isinstance(bams,str) else ' '.join(bams),
             nt=self._default.nt,
-            **locals()
+            outgtf=outgtf,
+            annogtf=annogtf
 
         )
 

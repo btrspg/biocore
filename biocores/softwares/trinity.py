@@ -47,7 +47,7 @@ class Trinity(Task):
             memory=self._default.memory if None==memory else memory,
             fq1=fq1 if isinstance(fq1,str) else ','.join(fq1),
             fq2=fq2 if isinstance(fq2,str) else ','.join(fq2),
-            **locals()
+            outdir=outdir
 
         )
 

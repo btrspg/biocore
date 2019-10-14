@@ -26,7 +26,7 @@ class TestTrinity(TestCase):
         outdir = '/path/to/outdir'
         memory = '1G'
         nt = 10
-        self.assertIsInstance(self.trinity.cmd_assemble_transcript(self, fq1, fq2, outdir, memory, nt), str,
+        self.assertIsInstance(self.trinity.cmd_assemble_transcript(fq1, fq2, outdir, memory, nt), str,
                               msg='is str for command')
-        self.assertIsInstance(self.trinity.cmd_assemble_transcript(self, fq1s, fq2s, outdir), str,
+        self.assertIsInstance(self.trinity.cmd_assemble_transcript(fq1s, fq2s, outdir), str,
                               msg='is str for command')
