@@ -36,10 +36,15 @@ hisat2Default.align =' --dta -5 10 -3 10 '
 
 
 # samtools
-samtoolsDefault = namedtuple('samtools',['sam2bam','sort','index'])
+samtoolsDefault = namedtuple('samtoolsDefault',['sam2bam','sort','index'])
 samtoolsDefault.sam2bam=' view -bSt '
 samtoolsDefault.sort=' sort '
 samtoolsDefault.index=' index '
+
+
+# stringtie
+stringtieDefault = namedtuple('stringtieDefault',['nt'])
+stringtieDefault.nt=16
 
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
