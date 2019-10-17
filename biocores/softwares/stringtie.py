@@ -22,7 +22,7 @@ class Stringtie(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{software} 2>&1|grep Version'.format(
+        return 'echo {repr} ;{software} --version'.format(
             repr=self.__repr__(),
             software=self._software
         )
