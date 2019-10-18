@@ -54,21 +54,28 @@ trinityDefault.memory='100G'
 trinityDefault.nt=16
 trinityDefault.default='--seqType fq --full_cleanup'
 
+# java
+JAVA_OPTIONS = '-Xmx15g -XX:+UseParallelGC -XX:ParallelGCThreads=2'
+
+# picard
+picardDefault = namedtuple('picardDefault',['java_options',
+                                            'markdup',
+                                            'quality_score_distribution',
+                                            'collect_gc_bias_metrics',
+                                            'collect_wgs_metrics'])
+picardDefault.java_options = JAVA_OPTIONS
+picardDefault.markdup = ' MarkDuplicates ' \
+                         'ASSUME_SORTED=true REMOVE_DUPLICATES=false VALIDATION_STRINGENCY=SILENT ' \
+                         'MAX_RECORDS_IN_RAM=1750000 '
+picardDefault.quality_score_distribution =  ' QualityScoreDistribution '
+picardDefault.collect_gc_bias_metrics = ' CollectGcBiasMetrics '
+picardDefault.collect_wgs_metrics = ' CollectWgsMetrics '
+
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
 BWA_ALN_DEFAULT = ' aln -l 19'
 BWA_SAMSE_DEFAULT = ' samse -n 10'
 
-# java
-JAVA_OPTIONS = '-Xmx15g -XX:+UseParallelGC -XX:ParallelGCThreads=2'
-
-# picard
-PICARD_MARKDUP_DEFAULT = 'MarkDuplicates ' \
-                         'ASSUME_SORTED=true REMOVE_DUPLICATES=false VALIDATION_STRINGENCY=SILENT ' \
-                         'MAX_RECORDS_IN_RAM=1750000'
-PICARD_QUALITY_SCORE_DISTRIBUTION_DEFALUT = ' QualityScoreDistribution '
-PICARD_COLLECT_GC_BIAS_METRICS_DEFALUT = ' CollectGcBiasMetrics '
-PICARD_COLLECT_WGS_MERTICS = ' CollectWgsMetrics '
 
 # gatk3.8
 GATK_BASERECAL_DEFAULT = '-T BaseRecalibrator --downsampling_type None'

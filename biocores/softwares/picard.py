@@ -15,16 +15,15 @@ from biocores.softwares.default import *
 
 
 class Picard(Task):
-    def __init__(self, container):
-        super(Picard, self).__init__(container,'picard')
-        self._common_paras = JAVA_OPTIONS
+    def __init__(self, software,fd):
+        super(Picard, self).__init__(software)
+        self._default = fd
 
     def cmd_version(self):
-        return 'echo {repr};{environment} {software} '.format(
-            repr=self.__repr__(),
-            environment=self._environment,
-            software=self._software
+        return 'echo {repr};echo NOVERSION '.format(
+            repr=self.__repr__()
         )
+
     @utils.special_tmp
     def cmd_quality_score_distribution(self, bam_file, qc_prefix, tmp):
         '''
