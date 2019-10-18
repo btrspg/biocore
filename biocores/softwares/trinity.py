@@ -22,7 +22,7 @@ class Trinity(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{software} --version'.format(
+        return 'echo {repr} ;echo $({software} --version)'.format(
             repr=self.__repr__(),
             software=self._software
         )
