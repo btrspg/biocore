@@ -71,6 +71,11 @@ picardDefault.quality_score_distribution =  ' QualityScoreDistribution '
 picardDefault.collect_gc_bias_metrics = ' CollectGcBiasMetrics '
 picardDefault.collect_wgs_metrics = ' CollectWgsMetrics '
 
+
+# gffcompare
+gffcompareDefault = namedtuple('gffcompareDefault',['default'])
+gffcompareDefault.default = ' -M -N -T '
+
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
 BWA_ALN_DEFAULT = ' aln -l 19'
