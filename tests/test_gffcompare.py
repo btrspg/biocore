@@ -22,5 +22,5 @@ class TestGffcompare(TestCase):
     def test_cmd_gffcompare(self):
         forlist = ['gfflist', 'reference', 'prefix']
         forgtfs = [None, 'reference', 'prefix', 'gtf1', 'gtf2']
-        self.assertIsInstance(self.gffcompare.cmd_gffcompare(forlist), str, msg='is str for command')
-        self.assertIsInstance(self.gffcompare.cmd_gffcompare(forgtfs), str, msg='is str for command')
+        self.assertIsInstance(self.gffcompare.cmd_gffcompare(*forlist), str, msg='is str for command')
+        self.assertIsInstance(self.gffcompare.cmd_gffcompare(*forgtfs), str, msg='is str for command')
