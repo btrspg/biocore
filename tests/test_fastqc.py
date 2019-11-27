@@ -23,3 +23,9 @@ class TestFastqc(TestCase):
         pe = ['/path/to/outdir', 'r1.fq.gz', 'r2.fq.gz']
         self.assertIsInstance(self.fastqc.cmd_fastqc_stat(*pe), str, msg='is str for command')
         self.assertIsInstance(self.fastqc.cmd_fastqc_stat(*se), str, msg='is str for command')
+
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()

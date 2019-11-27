@@ -11,18 +11,21 @@ from biocores.softwares.fastp import Fastp
 from biocores.softwares.default import fastpDefault
 
 
-
 class TestFastp(TestCase):
     def setUp(self):
-        self.fastp=Fastp('fastp',fastpDefault)
+        self.fastp = Fastp('fastp', fastpDefault)
 
     def test_cmd_version(self):
-        self.assertIsInstance(self.fastp.cmd_version(),str,msg='is str for command')
-
+        self.assertIsInstance(self.fastp.cmd_version(), str, msg='is str for command')
 
     def test_cmd_clean_data(self):
-        se= ['r1.fq.gz','clean.r1.fq.gz','','','prefix']
-        pe = ['r1.fq.gz','clean.r1.fq.gz','r2.fq.gz','clean.r2.fq.gz','prefix']
-        self.assertIsInstance(self.fastp.cmd_clean_data(*pe),str,msg='is str for command')
+        se = ['r1.fq.gz', 'clean.r1.fq.gz', '', '', 'prefix']
+        pe = ['r1.fq.gz', 'clean.r1.fq.gz', 'r2.fq.gz', 'clean.r2.fq.gz', 'prefix']
+        self.assertIsInstance(self.fastp.cmd_clean_data(*pe), str, msg='is str for command')
         self.assertIsInstance(self.fastp.cmd_clean_data(*se), str, msg='is str for command')
 
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()

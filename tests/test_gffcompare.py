@@ -6,6 +6,8 @@
 # @Mail    : yuelong.chen.btr@gmail.com
 # @File    : test_gffcompare
 # @Software: PyCharm
+
+
 from unittest import TestCase
 from biocores.softwares.gffcompare import Gffcompare
 from biocores.softwares.default import *
@@ -24,3 +26,9 @@ class TestGffcompare(TestCase):
         forgtfs = [None, 'reference', 'prefix', 'gtf1', 'gtf2']
         self.assertIsInstance(self.gffcompare.cmd_gffcompare(*forlist), str, msg='is str for command')
         self.assertIsInstance(self.gffcompare.cmd_gffcompare(*forgtfs), str, msg='is str for command')
+
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()
