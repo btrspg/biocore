@@ -27,7 +27,7 @@ class Stringtie(Task):
             software=self._software
         )
 
-    def cmd_assemble_transcript(self,bams,outgtf,annogtf):
+    def cmd_assemble_transcript(self, bams, outgtf, annogtf):
         '''
 
         :param bams:
@@ -39,35 +39,46 @@ class Stringtie(Task):
 {stringtie} {bams} -o {outgtf} -p {nt} -G {annogtf}        
         '''.format(
             stringtie=self._software,
-            bams = bams if isinstance(bams,str) else ' '.join(bams),
+            bams=bams if isinstance(bams, str) else ' '.join(bams),
             nt=self._default.nt,
             outgtf=outgtf,
             annogtf=annogtf
 
         )
 
-    def cmd_merge_gtf(self,gtfs,output,nt=None):
+    def cmd_merge_gtf(self, gtfs, output, tag=None, nt=None):
+        '''
+
+        :param gtfs:
+        :param output:
+        :param tag:
+        :param nt:
+        :return:
+        '''
+        if tag is None:
+            tag = ' -l MERGE'
+        else:
+            tag = ' -l ' + tag
         return r'''
-{stringtie} {merge_paras} \
+{stringtie} {merge_paras} {tag} \
     -o {output} \
     -p {nt} \
     {gtfs}     
     '''.format(
             stringtie=self._software,
-            gtfs=gtfs if isinstance(gtfs,str) else ' '.join(gtfs),
+            gtfs=gtfs if isinstance(gtfs, str) else ' '.join(gtfs),
             merge_paras=self._default.merge,
-            nt=self._default.nt if None==nt else nt,
-            output=output
+            nt=self._default.nt if None is nt else nt,
+            output=output,
+            tag=tag
 
         )
-
 
     def __repr__(self):
         return 'stringtie:' + self._software
 
     def __str__(self):
         return 'Transcript assembly and quantification for RNA-Seq'
-
 
 
 def main():
