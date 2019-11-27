@@ -27,11 +27,13 @@ class Gffcompare(Task):
             software=self._software
         )
 
-    def cmd_gffcompare(self, gtflist, reference, prefix, *gtfs):
+    def cmd_gffcompare(self, gtflist, reference, prefix, extend_para, *gtfs):
         '''
 
         :param gtflist:
+        :param reference:
         :param prefix:
+        :param extend_para: -M -N
         :param gtfs:
         :return:
         '''
@@ -42,13 +44,14 @@ class Gffcompare(Task):
             cmd = cmd + ' '.join(gtfs)
 
         return r'''
-{gffcompare} {gffcompare_default} -o {prefix} -r {reference} {cmd} 
+{gffcompare} {gffcompare_default} {extend_para} -o {prefix} -r {reference} {cmd} 
         '''.format(
             gffcompare=self._software,
             gffcompare_default=self._default.default,
             prefix=prefix,
             reference=reference,
-            cmd=cmd
+            cmd=cmd,
+            extend_para=extend_para
         )
 
     def __repr__(self):

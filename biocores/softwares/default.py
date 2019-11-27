@@ -75,6 +75,11 @@ gffcompareDefault.default = ' -T '
 gffreadDefault = namedtuple('gffreadDefault', ['default'])
 gffreadDefault.default = ''
 
+# kallisto
+kallistoDefault = namedtuple('kallistoDefault',['index_paras','quant_paras','nt'])
+kallistoDefault.index_paras=' index '
+kallistoDefault.quant_paras = ' quant --bias '
+kallistoDefault.nt = 16
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
 BWA_ALN_DEFAULT = ' aln -l 19'
