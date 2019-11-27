@@ -27,7 +27,7 @@ class Gffcompare(Task):
             software=self._software
         )
 
-    def cmd_gffcompare(self,gtflist,reference,prefix,*gtfs):
+    def cmd_gffcompare(self, gtflist, reference, prefix, *gtfs):
         '''
 
         :param gtflist:
@@ -51,13 +51,11 @@ class Gffcompare(Task):
             cmd=cmd
         )
 
-
     def __repr__(self):
         return 'gffcompare:' + self._software
 
     def __str__(self):
         return 'Program for processing GTF/GFF files'
-
 
 
 def main():
