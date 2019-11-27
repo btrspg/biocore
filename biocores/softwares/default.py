@@ -69,7 +69,11 @@ picardDefault.collect_wgs_metrics = ' CollectWgsMetrics '
 
 # gffcompare
 gffcompareDefault = namedtuple('gffcompareDefault', ['default'])
-gffcompareDefault.default = ' -M -N -T '
+gffcompareDefault.default = ' -T '
+
+# gffread
+gffreadDefault = namedtuple('gffreadDefault', ['default'])
+gffreadDefault.default = ''
 
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
