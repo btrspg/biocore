@@ -27,9 +27,11 @@ class Trinity(Task):
             software=self._software
         )
 
-    def cmd_assemble_transcript(self,fq1,fq2,outdir,memory=None,nt=None):
+    def cmd_assemble_transcript(self, fq1, fq2, outdir, memory=None, nt=None):
         '''
 
+        :param nt:
+        :param memory:
         :param bams:
         :param outgtf:
         :param annogtf:
@@ -40,24 +42,23 @@ class Trinity(Task):
     --output {outdir} --CPU {nt}  \
     --left {fq1} \
     --right {fq2}
+rm -rf {outdir}/trinity/
         '''.format(
             trinity=self._software,
             assemble_default=self._default.default,
-            nt=self._default.nt if None==nt else nt,
-            memory=self._default.memory if None==memory else memory,
-            fq1=fq1 if isinstance(fq1,str) else ','.join(fq1),
-            fq2=fq2 if isinstance(fq2,str) else ','.join(fq2),
+            nt=self._default.nt if None == nt else nt,
+            memory=self._default.memory if None is memory else memory,
+            fq1=fq1 if isinstance(fq1, str) else ','.join(fq1),
+            fq2=fq2 if isinstance(fq2, str) else ','.join(fq2),
             outdir=outdir
 
         )
-
 
     def __repr__(self):
         return 'trinity:' + self._software
 
     def __str__(self):
         return 'Trinity RNA-Seq de novo transcriptome assembly'
-
 
 
 def main():
