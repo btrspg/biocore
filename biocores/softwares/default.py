@@ -76,10 +76,16 @@ gffreadDefault = namedtuple('gffreadDefault', ['default'])
 gffreadDefault.default = ''
 
 # kallisto
-kallistoDefault = namedtuple('kallistoDefault',['index_paras','quant_paras','nt'])
-kallistoDefault.index_paras=' index '
+kallistoDefault = namedtuple('kallistoDefault', ['index_paras', 'quant_paras', 'nt'])
+kallistoDefault.index_paras = ' index '
 kallistoDefault.quant_paras = ' quant --bias '
 kallistoDefault.nt = 16
+
+# minimap2
+minimap2Default = namedtuple('minimap2Default', ['default', 'align_paras'])
+minimap2Default.default = ' -I 10G '
+
+# OLD PARAMETERS=========================================================================
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
 BWA_ALN_DEFAULT = ' aln -l 19'
