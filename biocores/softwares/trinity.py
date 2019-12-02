@@ -42,7 +42,6 @@ class Trinity(Task):
     --output {outdir} --CPU {nt}  \
     --left {fq1} \
     --right {fq2}
-rm -rf {outdir}/trinity/
         '''.format(
             trinity=self._software,
             assemble_default=self._default.default,
