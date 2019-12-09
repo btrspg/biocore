@@ -31,6 +31,8 @@ class Trinity(Task):
     def cmd_assemble_transcript(self, fq1, fq2, outdir, memory=None, nt=None):
         '''
 
+        :param nt:
+        :param memory:
         :param bams:
         :param outgtf:
         :param annogtf:
@@ -45,7 +47,7 @@ class Trinity(Task):
             trinity=self._software,
             assemble_default=self._default.default,
             nt=self._default.nt if None == nt else nt,
-            memory=self._default.memory if None == memory else memory,
+            memory=self._default.memory if None is memory else memory,
             fq1=fq1 if isinstance(fq1, str) else ','.join(fq1),
             fq2=fq2 if isinstance(fq2, str) else ','.join(fq2),
             outdir=outdir

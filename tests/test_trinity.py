@@ -30,3 +30,9 @@ class TestTrinity(TestCase):
                               msg='is str for command')
         self.assertIsInstance(self.trinity.cmd_assemble_transcript(fq1s, fq2s, outdir), str,
                               msg='is str for command')
+
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()

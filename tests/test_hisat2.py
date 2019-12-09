@@ -12,9 +12,6 @@ from biocores.softwares.samtools import Samtools
 from biocores.softwares.default import *
 
 
-
-
-
 class TestHisat2(TestCase):
     def setUp(self):
         self.hisat2 = Hisat2('hisat2', hisat2Default)
@@ -23,7 +20,13 @@ class TestHisat2(TestCase):
         self.assertIsInstance(self.hisat2.cmd_version(), str, msg='is str for command')
 
     def test_cmd_align(self):
-        samtools =Samtools('samtools',samtoolsDefault)
-        only_pe=['/path/to/hisat2_idx','r1.fq.gz','r2.fq.gz','summary.txt',samtools,'/path/to/samtools_idx','outbam']
+        samtools = Samtools('samtools', samtoolsDefault)
+        only_pe = ['/path/to/hisat2_idx', 'r1.fq.gz', 'r2.fq.gz', 'summary.txt', samtools, '/path/to/samtools_idx',
+                   'outbam']
         self.assertIsInstance(self.hisat2.cmd_align(*only_pe), str, msg='is str for command')
 
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()

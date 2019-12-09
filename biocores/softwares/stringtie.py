@@ -47,9 +47,22 @@ class Stringtie(Task):
 
         )
 
-    def cmd_merge_gtf(self, gtfs, output, nt=None):
+    @utils.modify_cmd
+    def cmd_merge_gtf(self, gtfs, output, tag=None, nt=None):
+        '''
+
+        :param gtfs:
+        :param output:
+        :param tag:
+        :param nt:
+        :return:
+        '''
+        if tag is None:
+            tag = ' -l MERGE'
+        else:
+            tag = ' -l ' + tag
         return r'''
-{stringtie} {merge_paras} \
+{stringtie} {merge_paras} {tag} \
     -o {output} \
     -p {nt} \
     {gtfs}     
@@ -57,16 +70,19 @@ class Stringtie(Task):
             stringtie=self._software,
             gtfs=gtfs if isinstance(gtfs, str) else ' '.join(gtfs),
             merge_paras=self._default.merge,
-            nt=self._default.nt if None == nt else nt,
-            output=output
+            nt=self._default.nt if None is nt else nt,
+            output=output,
+            tag=tag
 
         )
+
 
     def __repr__(self):
         return 'stringtie:' + self._software
 
     def __str__(self):
         return 'Transcript assembly and quantification for RNA-Seq'
+
 
 
 def main():

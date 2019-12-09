@@ -31,3 +31,9 @@ class TestSamtools(TestCase):
 
     def test_cmd_index(self):
         self.assertIsInstance(self.samtools.cmd_index(self.bamfile), str, msg='is str for command')
+
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()

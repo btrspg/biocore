@@ -22,60 +22,74 @@ mkdirDefault.default = ' -p '
 fastqcDefault = namedtuple('fastqcDefault', ['default'])
 fastqcDefault.default = ''
 
-
 # star
-starDefault = namedtuple('starDefault',['align','nt','rl'])
-starDefault.align='--outSAMstrandField intronMotif --readFilesCommand zcat \
+starDefault = namedtuple('starDefault', ['align', 'nt', 'rl'])
+starDefault.align = '--outSAMstrandField intronMotif --readFilesCommand zcat \
      --outSAMtype BAM SortedByCoordinate'
-starDefault.nt=8
-starDefault.rl=99
+starDefault.nt = 8
+starDefault.rl = 99
 
 # hisat2
-hisat2Default = namedtuple('hisat2Default',['align'])
-hisat2Default.align =' --dta -5 10 -3 10 '
-
+hisat2Default = namedtuple('hisat2Default', ['align'])
+hisat2Default.align = ' --dta -5 10 -3 10 '
 
 # samtools
-samtoolsDefault = namedtuple('samtoolsDefault',['sam2bam','sort','index'])
-samtoolsDefault.sam2bam=' view -bSt '
-samtoolsDefault.sort=' sort '
-samtoolsDefault.index=' index '
-
+samtoolsDefault = namedtuple('samtoolsDefault', ['sam2bam', 'sort', 'index'])
+samtoolsDefault.sam2bam = ' view -bSt '
+samtoolsDefault.sort = ' sort '
+samtoolsDefault.index = ' index '
 
 # stringtie
-stringtieDefault = namedtuple('stringtieDefault',['nt','merge'])
-stringtieDefault.nt=16
-stringtieDefault.merge='--merge -m 200 -F 0 -T 0 -l STM '
-
+stringtieDefault = namedtuple('stringtieDefault', ['nt', 'merge'])
+stringtieDefault.nt = 16
+stringtieDefault.merge = '--merge -m 200 -F 0 -T 0 '
 
 # trinity
-trinityDefault = namedtuple('trinityDefault',['default','nt','memory'])
-trinityDefault.memory='100G'
-trinityDefault.nt=16
-trinityDefault.default='--seqType fq --full_cleanup'
+trinityDefault = namedtuple('trinityDefault', ['default', 'nt', 'memory'])
+trinityDefault.memory = '100G'
+trinityDefault.nt = 16
+trinityDefault.default = '--seqType fq --full_cleanup'
 
 # java
 JAVA_OPTIONS = '-Xmx15g -XX:+UseParallelGC -XX:ParallelGCThreads=2'
 
 # picard
-picardDefault = namedtuple('picardDefault',['java_options',
-                                            'markdup',
-                                            'quality_score_distribution',
-                                            'collect_gc_bias_metrics',
-                                            'collect_wgs_metrics'])
+picardDefault = namedtuple('picardDefault', ['java_options',
+                                             'markdup',
+                                             'quality_score_distribution',
+                                             'collect_gc_bias_metrics',
+                                             'collect_wgs_metrics'])
 picardDefault.java_options = JAVA_OPTIONS
 picardDefault.markdup = ' MarkDuplicates ' \
-                         'ASSUME_SORTED=true REMOVE_DUPLICATES=false VALIDATION_STRINGENCY=SILENT ' \
-                         'MAX_RECORDS_IN_RAM=1750000 '
-picardDefault.quality_score_distribution =  ' QualityScoreDistribution '
+                        'ASSUME_SORTED=true REMOVE_DUPLICATES=false VALIDATION_STRINGENCY=SILENT ' \
+                        'MAX_RECORDS_IN_RAM=1750000 '
+picardDefault.quality_score_distribution = ' QualityScoreDistribution '
 picardDefault.collect_gc_bias_metrics = ' CollectGcBiasMetrics '
 picardDefault.collect_wgs_metrics = ' CollectWgsMetrics '
 
+# gffcompare
+gffcompareDefault = namedtuple('gffcompareDefault', ['default'])
+gffcompareDefault.default = ' -T '
+
+# gffread
+gffreadDefault = namedtuple('gffreadDefault', ['default'])
+gffreadDefault.default = ''
+
+# kallisto
+kallistoDefault = namedtuple('kallistoDefault', ['index_paras', 'quant_paras', 'nt'])
+kallistoDefault.index_paras = ' index '
+kallistoDefault.quant_paras = ' quant --bias '
+kallistoDefault.nt = 16
+
+# minimap2
+minimap2Default = namedtuple('minimap2Default', ['default', 'align_paras'])
+minimap2Default.default = ' -I 10G '
+
+# OLD PARAMETERS=========================================================================
 # bwa
 BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
 BWA_ALN_DEFAULT = ' aln -l 19'
 BWA_SAMSE_DEFAULT = ' samse -n 10'
-
 
 # gatk3.8
 GATK_BASERECAL_DEFAULT = '-T BaseRecalibrator --downsampling_type None'

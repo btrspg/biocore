@@ -13,23 +13,30 @@ from biocores.softwares.default import *
 
 class TestStringtie(TestCase):
     def setUp(self):
-        self.stringtie=Stringtie('stringtie',stringtieDefault)
+        self.stringtie = Stringtie('stringtie', stringtieDefault)
 
     def test_cmd_version(self):
         self.assertIsInstance(self.stringtie.cmd_version(), str, msg='is str for command')
 
     def test_cmd_assemble_transcript(self):
-        bam='bamfile'
-        bams=['bam1','bam2','bam3']
-        outgtf='outgtf'
-        annogtf='annotation.gtf'
-        self.assertIsInstance(self.stringtie.cmd_assemble_transcript(bams,outgtf,annogtf),str,msg='is str for command')
+        bam = 'bamfile'
+        bams = ['bam1', 'bam2', 'bam3']
+        outgtf = 'outgtf'
+        annogtf = 'annotation.gtf'
+        self.assertIsInstance(self.stringtie.cmd_assemble_transcript(bams, outgtf, annogtf), str,
+                              msg='is str for command')
         self.assertIsInstance(self.stringtie.cmd_assemble_transcript(bam, outgtf, annogtf), str,
                               msg='is str for command')
 
     def test_cmd_merge_gtf(self):
-        gtf='1.gtf'
-        gtfs=['1.gtf','2.gtf','3.gtf']
-        output='/path/to/output.gtf'
-        self.assertIsInstance(self.stringtie.cmd_merge_gtf(gtf,output),str,msg='is str for command')
-        self.assertIsInstance(self.stringtie.cmd_merge_gtf(gtfs, output),str,msg='is str for command')
+        gtf = '1.gtf'
+        gtfs = ['1.gtf', '2.gtf', '3.gtf']
+        output = '/path/to/output.gtf'
+        self.assertIsInstance(self.stringtie.cmd_merge_gtf(gtf, output), str, msg='is str for command')
+        self.assertIsInstance(self.stringtie.cmd_merge_gtf(gtfs, output), str, msg='is str for command')
+
+
+import unittest
+
+if __name__ == '__main__':
+    unittest.main()
