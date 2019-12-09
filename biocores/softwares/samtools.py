@@ -22,7 +22,7 @@ class Samtools(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{software} '.format(
+        return 'echo {repr} ;{software} 2>&1 | grep Version  '.format(
             repr=self.__repr__(),
             software=self._software
         )
