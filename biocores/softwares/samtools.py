@@ -12,6 +12,7 @@ from __future__ import absolute_import, unicode_literals
 from biocores.bases.tasks import Task
 from biocores import utils
 
+
 class Samtools(Task):
     def __init__(self, software, fd):
         super(Samtools, self).__init__(software)
@@ -22,13 +23,13 @@ class Samtools(Task):
 
         :return:
         '''
-        return 'echo {repr} ;{software} 2>&1 | grep Version  '.format(
+        return 'echo {repr} ;echo $({software} 2>&1 | grep Version)  '.format(
             repr=self.__repr__(),
             software=self._software
         )
 
     @utils.modify_cmd
-    def cmd_sam2bam(self, samtools_idx,samfile,bamfile=None):
+    def cmd_sam2bam(self, samtools_idx, samfile, bamfile=None):
         '''
 
         :param samtools_idx:
@@ -36,27 +37,27 @@ class Samtools(Task):
         :param bamfile:
         :return:
         '''
-        if None==bamfile:
-            bamfile=''
+        if None == bamfile:
+            bamfile = ''
         else:
-            bamfile='-o '+bamfile
+            bamfile = '-o ' + bamfile
         return r'''
 {samtools} {sam2bam_paras} {samtools_idx} {samfile} {bamfile}
             '''.format(
-                sam2bam_paras=self._default.sam2bam,
-                samtools=self._software,
-                **locals())
+            sam2bam_paras=self._default.sam2bam,
+            samtools=self._software,
+            **locals())
 
     @utils.modify_cmd
-    def cmd_sort(self,bamfile,sortbam=None):
+    def cmd_sort(self, bamfile, sortbam=None):
         '''
 
         :return:
         '''
-        if None==sortbam:
-            sortbam=''
+        if None == sortbam:
+            sortbam = ''
         else:
-            sortbam='-o '+sortbam
+            sortbam = '-o ' + sortbam
         return r'''
 {samtools} {sort_paras} {bamfile} {sortbam}        
         '''.format(
