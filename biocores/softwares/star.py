@@ -27,6 +27,7 @@ class Star(Task):
             software=self._software
         )
 
+    @utils.modify_cmd
     def cmd_align(self, star_idx, fq1, fq2, prefix, gtf, sampleid='TEST',
                   lane='L1', platform='Illumina', readlength=None, threads=None):
         '''
@@ -49,7 +50,7 @@ class Star(Task):
     --outFileNamePrefix {prefix} \
     --sjdbGTFfile {gtf}  \
     --runThreadN {nt} \
-    --sjdbOverhang {rl}
+    --sjdbOverhang {rl} \
     --outSAMattrRGline "ID:RNA LB:{sampleid} SM:{sampleid} PL:{platform} PU:{platform}"      
             '''.format(
             star=self._software,

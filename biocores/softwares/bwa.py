@@ -26,7 +26,7 @@ class Bwa(Task):
             environment=self._environment,
             software=self._software
         )
-
+    @utils.modify_cmd
     @utils.special_tmp
     def cmd_align(self, bwa_idx, fq1, fq2, samtools_idx, bam_file, sampleid='', tmp='/tmp/bwa',
                   lane='L1', platform='Illumina'):

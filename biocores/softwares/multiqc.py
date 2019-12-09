@@ -26,6 +26,7 @@ class Multiqc(Task):
             software=self._software
         )
 
+    @utils.modify_cmd
     def cmd_merge_qc(self, outdir, filename, qc_dir):
         '''
 

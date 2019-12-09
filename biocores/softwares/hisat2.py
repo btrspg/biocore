@@ -28,7 +28,8 @@ class Hisat2(Task):
             software=self._software
         )
 
-    def cmd_align(self,hisat2_idx, fq1, fq2, summary , samtools,samtools_idx,outbam):
+    @utils.modify_cmd
+    def cmd_align(self, hisat2_idx, fq1, fq2, summary, samtools, samtools_idx, outbam):
         '''
 
         :param hisat2_idx:
@@ -48,12 +49,11 @@ class Hisat2(Task):
             '''.format(
             hisat2=self._software,
             align_paras=self._default.align,
-            samtools_sam2bam=samtools.cmd_sam2bam(samtools_idx,'-',bamfile=None),
-            samtools_sort=samtools.cmd_sort('-',sortbam=outbam),
+            samtools_sam2bam=samtools.cmd_sam2bam(samtools_idx, '-', bamfile=None),
+            samtools_sort=samtools.cmd_sort('-', sortbam=outbam),
             samtools_index=samtools.cmd_index(outbam),
             **locals()
-            )
-
+        )
 
     def __repr__(self):
         return 'hisat2:' + self._software
@@ -62,10 +62,9 @@ class Hisat2(Task):
         return 'graph-based alignment of next generation sequencing reads to a population of genomes'
 
 
-
-
 def main():
     pass
+
 
 if __name__ == '__main__':
     main()

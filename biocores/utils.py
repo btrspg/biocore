@@ -25,6 +25,14 @@ def random_string(number=8):
                                  string.digits, number))
 
 
+def modify_cmd(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs).rstrip().lstrip()
+
+    return wrapper
+
+
 def _check_str(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -85,10 +93,7 @@ def string_dirs(sep=' ', *dirs):
 
 
 def main():
-    print(dirs_for_dirs('/tmp/test', '/tmp/test2'))
-    print(dirs_for_file('/tmp/file1/file', '/tmp/file2/file'))
-    print(string_dirs(' ', *dirs_for_dirs('/tmp/test', '/tmp/test2'),
-                      *dirs_for_file('/tmp/file1/file', '/tmp/file2/file')))
+    pass
 
 
 if __name__ == '__main__':

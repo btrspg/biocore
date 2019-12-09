@@ -10,7 +10,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from biocores.bases.tasks import Task
-
+from biocores import utils
 
 class Samtools(Task):
     def __init__(self, software, fd):
@@ -27,6 +27,7 @@ class Samtools(Task):
             software=self._software
         )
 
+    @utils.modify_cmd
     def cmd_sam2bam(self, samtools_idx,samfile,bamfile=None):
         '''
 
@@ -46,6 +47,7 @@ class Samtools(Task):
                 samtools=self._software,
                 **locals())
 
+    @utils.modify_cmd
     def cmd_sort(self,bamfile,sortbam=None):
         '''
 
@@ -62,6 +64,7 @@ class Samtools(Task):
             sort_paras=self._default.sort,
             **locals())
 
+    @utils.modify_cmd
     def cmd_index(self, bamfile):
         '''
 

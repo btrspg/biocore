@@ -10,7 +10,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from biocores.bases.tasks import Task
-
+from biocores import utils
 
 class Trinity(Task):
     def __init__(self, software, fd):
@@ -27,7 +27,8 @@ class Trinity(Task):
             software=self._software
         )
 
-    def cmd_assemble_transcript(self,fq1,fq2,outdir,memory=None,nt=None):
+    @utils.modify_cmd
+    def cmd_assemble_transcript(self, fq1, fq2, outdir, memory=None, nt=None):
         '''
 
         :param bams:
@@ -43,21 +44,19 @@ class Trinity(Task):
         '''.format(
             trinity=self._software,
             assemble_default=self._default.default,
-            nt=self._default.nt if None==nt else nt,
-            memory=self._default.memory if None==memory else memory,
-            fq1=fq1 if isinstance(fq1,str) else ','.join(fq1),
-            fq2=fq2 if isinstance(fq2,str) else ','.join(fq2),
+            nt=self._default.nt if None == nt else nt,
+            memory=self._default.memory if None == memory else memory,
+            fq1=fq1 if isinstance(fq1, str) else ','.join(fq1),
+            fq2=fq2 if isinstance(fq2, str) else ','.join(fq2),
             outdir=outdir
 
         )
-
 
     def __repr__(self):
         return 'trinity:' + self._software
 
     def __str__(self):
         return 'Trinity RNA-Seq de novo transcriptome assembly'
-
 
 
 def main():

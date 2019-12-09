@@ -28,6 +28,7 @@ class Fastp(Task):
             software=self._software
         )
 
+    @utils.modify_cmd
     def cmd_clean_data(self, fq1, cfq1, fq2, cfq2, report_prefix):
         '''
 

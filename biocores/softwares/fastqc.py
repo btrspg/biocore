@@ -32,6 +32,7 @@ class Fastqc(Task):
             software=self._software
         )
 
+    @utils.modify_cmd
     def cmd_fastqc_stat(self, outdir,fq1,fq2=''):
         '''
 
