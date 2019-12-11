@@ -12,7 +12,7 @@ jobs:
           name: "Install git python3 python3-pip"
           command: |
             apt update
-            apt install git python3 python3-pip
+            apt install -y git python3 python3-pip
       - run:
           name: "Pull Submodules"
           command: |
