@@ -48,7 +48,8 @@ class TestSamtools(TestCase):
         self.assertIsInstance(self.samtools.cmd_index(self.bamfile), str, msg='is str for command')
         # if check_call(self.samtools.cmd_index(self.bamfile), shell=True):
         #     run_ok = True
-        check_call(self.samtools.cmd_index(self.bamfile))
+        check_call('ls -R *',shell=True)
+        check_call(self.samtools.cmd_index(self.bamfile),shell=True)
         # self.assertTrue(run_ok, msg='command could not run healthily')
 
 
