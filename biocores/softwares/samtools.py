@@ -18,6 +18,7 @@ class Samtools(Task):
         super(Samtools, self).__init__(software)
         self._default = fd
 
+    @utils.modify_cmd
     def cmd_version(self):
         '''
 
@@ -37,7 +38,7 @@ class Samtools(Task):
         :param bamfile:
         :return:
         '''
-        if None == bamfile:
+        if None is bamfile:
             bamfile = ''
         else:
             bamfile = '-o ' + bamfile
@@ -87,23 +88,9 @@ class Samtools(Task):
                'including sorting, merging, indexing and generating alignments in a per-position format.'
 
 
-def test():
-    fastp = Fastp('pipeline')
-    print(fastp.cmd_version())
-    print(fastp.cmd_clean_data('/opt/tmp/test/AS2818.clean.1.fq.gz',
-                               '/opt/tmp/test/testpe.clean.1.fq.gz',
-                               '/opt/tmp/test/AS2818.clean.2.fq.gz',
-                               '/opt/tmp/test/testpe.clean.2.fq.gz',
-                               '/opt/tmp/test/testpe'))
-    print(fastp.cmd_clean_data('/opt/tmp/test/AS2818.clean.1.fq.gz',
-                               '/opt/tmp/test/testse.clean.1.fq.gz',
-                               '',
-                               '',
-                               '/opt/tmp/test/test-se'))
-
 
 def main():
-    test()
+    pass
 
 
 if __name__ == '__main__':

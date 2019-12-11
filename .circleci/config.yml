@@ -1,7 +1,7 @@
 
 version: 2
 jobs:
-  build:
+  Test_fastp_bwa_fastqc_minimap2_picard_gatk4:
     docker:
       - image: continuumio/miniconda3:4.7.12
 
