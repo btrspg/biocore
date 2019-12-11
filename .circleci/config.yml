@@ -21,12 +21,12 @@ jobs:
       - run:
           name: "conda environment build"
           command: |
-            conda env create -f conda-env.yml -p ./biocore-test
-            conda activate ./biocore-test
+            conda env update --file conda-env.yml
+
 
       - save_cache:
           paths:
-            - ./biocoore-test
+            - /opt/conda
           key: v1-dependencies-{{ checksum "conda-env.yml" }}
 
       - run:

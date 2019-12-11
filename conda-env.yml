@@ -1,4 +1,3 @@
-name: biocore-test
 channels:
   - bioconda
   - defaults
@@ -22,4 +21,3 @@ dependencies:
   - wheel=0.31.1=py35_0
   - xz=5.2.4=h14c3975_4
   - zlib=1.2.11=h7b6447c_3
-prefix: ~/biocore-test
