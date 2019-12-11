@@ -15,7 +15,7 @@ from biocores.softwares.default import *
 class TestSamtools(TestCase):
     def setUp(self):
         self.samtools = Samtools('samtools', samtoolsDefault)
-        self.bamfile = './tests/test-data/bam/HS.MT.Raw.bam'
+        self.bamfile = 'tests/test-data/bam/HS.MT.Raw.bam'
         self.samtools_idx = './tests/test-data/fasta/Homo_sapiens.GRCh38.dna.primary_assembly.chromosomeMT.fa.fai'
         self.samfile = './tests/test-data/bam/header.sam'
         self.newbam = './tests/test-data/header.bam'
