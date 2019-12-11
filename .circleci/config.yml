@@ -1,7 +1,7 @@
 
 version: 2
 jobs:
-  Test_samtools:
+  Build:
     docker:
       - image: biotoolsdx/samtools
     working_directory: ~/repo
