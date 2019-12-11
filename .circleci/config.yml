@@ -21,7 +21,8 @@ jobs:
       - run:
           name: "conda environment build"
           command: |
-            conda env update --file conda-env.yml
+            . /opt/conda/etc/profile.d/conda.sh
+            conda env update --file conda-env.yml --prune
 
 
       - save_cache:
