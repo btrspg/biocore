@@ -21,7 +21,7 @@ jobs:
       - run:
           name: "conda environment build"
           command: |
-            . /opt/conda/etc/profile.d/conda.sh
+            conda activate base
             conda env update --file conda-env.yml --prune
 
 
