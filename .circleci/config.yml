@@ -21,7 +21,7 @@ jobs:
       - run:
           name: "conda environment build"
           command: |
-            conda create -f conda-env.yml -p ./biocore-test
+            conda env create -f conda-env.yml -p ./biocore-test
             conda activate ./biocore-test
 
       - save_cache:
