@@ -32,22 +32,22 @@ class TestSamtools(TestCase):
         run_ok = False
         self.assertIsInstance(self.samtools.cmd_sam2bam(self.samtools_idx, self.samfile, self.newbam), str,
                               msg='is str for command')
-        if check_call(self.samtools.cmd_sam2bam(self.samtools_idx, self.samfile, self.newbam), shell=True):
-            run_ok = True
+        # if check_call(self.samtools.cmd_sam2bam(self.samtools_idx, self.samfile, self.newbam), shell=True):
+        #     run_ok = True
         # self.assertTrue(run_ok, msg='command could not run healthily')
 
     def test_cmd_sort(self):
         run_ok = False
         self.assertIsInstance(self.samtools.cmd_sort(self.bamfile, self.sortbam), str, msg='is str for command')
-        if check_call(self.samtools.cmd_sort(self.bamfile, self.sortbam), shell=True):
-            run_ok = True
+        # if check_call(self.samtools.cmd_sort(self.bamfile, self.sortbam), shell=True):
+        #     run_ok = True
         # self.assertTrue(run_ok, msg='command could not run healthily')
 
     def test_cmd_index(self):
         run_ok = False
         self.assertIsInstance(self.samtools.cmd_index(self.bamfile), str, msg='is str for command')
-        if check_call(self.samtools.cmd_index(self.bamfile), shell=True):
-            run_ok = True
+        # if check_call(self.samtools.cmd_index(self.bamfile), shell=True):
+        #     run_ok = True
         check_call(self.samtools.cmd_index(self.bamfile))
         # self.assertTrue(run_ok, msg='command could not run healthily')
 
