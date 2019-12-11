@@ -33,7 +33,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            conda activate ./biocore-test
+            source activate base
             sh test.sh
 
       - store_artifacts:
