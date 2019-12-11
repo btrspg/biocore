@@ -21,7 +21,7 @@ jobs:
       - run:
           name: "conda environment build"
           command: |
-            conda activate base
+            conda run conda activate base
             conda env update --file conda-env.yml --prune
 
 
