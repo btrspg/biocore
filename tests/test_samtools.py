@@ -6,6 +6,7 @@
 # @Mail    : yuelong.chen.btr@gmail.com
 # @File    : test_samtools
 # @Software: PyCharm
+import unittest
 from unittest import TestCase
 from subprocess import run
 from biocores.softwares.samtools import Samtools
@@ -45,7 +46,7 @@ class TestSamtools(TestCase):
         self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
 
-import unittest
+
 
 if __name__ == '__main__':
     unittest.main()
