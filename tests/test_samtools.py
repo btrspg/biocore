@@ -27,12 +27,10 @@ class TestSamtools(TestCase):
         self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
     def test_cmd_sam2bam(self):
-        run_ok = False
         self.assertIsInstance(self.samtools.cmd_sam2bam(self.samtools_idx, self.samfile, self.newbam), str,
                               msg='is str for command')
-        # if run(self.samtools.cmd_sam2bam(self.samtools_idx, self.samfile, self.newbam), shell=True):
-        #     run_ok = True
-        # self.assertTrue(run_ok, msg='command could not run healthily')
+        run_ok = run(self.samtools.cmd_sam2bam(self.samtools_idx, self.samfile, self.newbam), shell=True)
+        self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
     def test_cmd_sort(self):
         run_ok = False
