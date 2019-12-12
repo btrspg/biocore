@@ -18,7 +18,7 @@ jobs:
           name: "create samtools test environment"
           command: |
             source activate base
-            conda env create --file conda-envs/test.yml -n samtools
+            conda env create --file conda-envs/samtools.yml -n samtools
       - run:
           name: "create bwa test environment"
           command: |

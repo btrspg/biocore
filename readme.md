@@ -16,3 +16,5 @@ cnvkit  gffcompare gffread  hisat2 kallisto lumpy-sv  multiqc  samtools star str
 - picard 
 - gatk4
 - samtools
+
+## Using docker environments
