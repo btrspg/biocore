@@ -24,7 +24,7 @@ jobs:
           command: |
             source activate base
       - save_cache:
-          key: v1-conda-environments-{{ checksum "conda-envs/test.yml" }}
+          key: v1-conda-environments-{{ checksum "conda-envs/samtools.yml" }}
           paths:
             - /opt/conda/envs/samtools
 
@@ -38,11 +38,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-conda-environments-{{ checksum "conda-envs/test.yml" }}
+          key: v1-conda-environments-{{ checksum "conda-envs/samtools.yml" }}
       - run:
           name: "samtools test"
           command: |
-            source activate /opt/conda/envs/samtools
+            source activate samtools
             python -m unittest tests/test_samtools.py
 #  Test_fastp_bwa_fastqc_minimap2_picard_gatk4:
 #    docker:
