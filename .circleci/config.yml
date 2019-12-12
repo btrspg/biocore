@@ -42,7 +42,7 @@ jobs:
       - run:
           name: "samtools test"
           command: |
-            source activate samtools
+            source activate /opt/conda/envs/samtools
             python -m unittest tests/test_samtools.py
 #  Test_fastp_bwa_fastqc_minimap2_picard_gatk4:
 #    docker:
