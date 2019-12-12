@@ -12,7 +12,7 @@ jobs:
           name: "create samtools test environment"
           command: |
             source activate base
-            conda env create --file conda-envs/test.yml --prune
+            conda env create --file conda-envs/test.yml 
       - run:
           name: "Pull Submodules"
           command: |
