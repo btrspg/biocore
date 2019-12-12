@@ -33,20 +33,16 @@ class TestSamtools(TestCase):
         self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
     def test_cmd_sort(self):
-        run_ok = False
         self.assertIsInstance(self.samtools.cmd_sort(self.bamfile, self.sortbam), str, msg='is str for command')
-        # if run(self.samtools.cmd_sort(self.bamfile, self.sortbam), shell=True):
-        #     run_ok = True
-        # self.assertTrue(run_ok, msg='command could not run healthily')
+        run_ok = run(self.samtools.cmd_sort(self.bamfile, self.sortbam), shell=True)
+
+        self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
     def test_cmd_index(self):
-        run_ok = False
         self.assertIsInstance(self.samtools.cmd_index(self.bamfile), str, msg='is str for command')
-        # if run(self.samtools.cmd_index(self.bamfile), shell=True):
-        #     run_ok = True
-        # check_call('ls -R *',shell=True)
-        # check_call(self.samtools.cmd_index(self.bamfile),shell=True)
-        # self.assertTrue(run_ok, msg='command could not run healthily')
+        run_ok = run(self.samtools.cmd_index(self.bamfile), shell=True)
+
+        self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
 
 import unittest

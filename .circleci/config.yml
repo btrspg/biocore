@@ -18,14 +18,15 @@ jobs:
           command: |
             git submodule init
             git submodule update --remote
-      - run:
-          name: "test"
-          command: |
-            ls -R
+
       - run:
           name: "Test samtools"
           command: |
             python3 -m unittest tests/test_samtools.py
+      - run:
+          name: "test"
+          command: |
+            ls -R
 
   Test_fastp_bwa_fastqc_minimap2_picard_gatk4:
     docker:
