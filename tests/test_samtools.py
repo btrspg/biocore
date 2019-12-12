@@ -36,16 +36,12 @@ class TestSamtools(TestCase):
     def test_cmd_sort(self):
         self.assertIsInstance(self.samtools.cmd_sort(self.bamfile, self.sortbam), str, msg='is str for command')
         run_ok = run(self.samtools.cmd_sort(self.bamfile, self.sortbam), shell=True)
-
         self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
 
     def test_cmd_index(self):
         self.assertIsInstance(self.samtools.cmd_index(self.bamfile), str, msg='is str for command')
         run_ok = run(self.samtools.cmd_index(self.bamfile), shell=True)
-
         self.assertEqual(run_ok.returncode, 0, msg='command could not run healthily')
-
-
 
 
 if __name__ == '__main__':
