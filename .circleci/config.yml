@@ -23,6 +23,10 @@ jobs:
           name: "create bwa test environment"
           command: |
             source activate base
+      - save_cache:
+          key: v1-conda-environments-{{ checksum "conda-envs/test.yml" }}
+          paths:
+            - /opt/conda/envs/samtools
 
 
 
@@ -33,6 +37,8 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          key: v1-conda-environments-{{ checksum "conda-envs/test.yml" }}
       - run:
           name: "samtools test"
           command: |
