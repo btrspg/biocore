@@ -1,4 +1,4 @@
-name: base
+name: samtools
 channels:
   - bioconda
   - defaults
