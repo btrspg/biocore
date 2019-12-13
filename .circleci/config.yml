@@ -68,7 +68,7 @@ jobs:
           name: "minimap2 test"
           command: |
             source activate minimap2
-            python -m unittest tests/teet_minimap2.py
+            python -m unittest tests/test_minimap2.py
 #
 #      - store_artifacts:
 #          path: test-reports
