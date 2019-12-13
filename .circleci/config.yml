@@ -14,13 +14,18 @@ jobs:
             source activate base
             conda env create --file conda-envs/samtools.yml -n samtools
       - run:
-          name: "create bwa test environment"
+          name: "create minimap2 test environment"
           command: |
             source activate base
+            conda env create --file conda-envs/minimap2.yml -n minimap2
       - save_cache:
           key: v1-conda-environments-{{ checksum "conda-envs/samtools.yml" }}
           paths:
             - /opt/conda/envs/samtools
+      - save_cache:
+          key: v1-conda-environments-{{ checksum "conda-envs/minimap2.yml" }}
+          paths:
+            - /opt/conda/envs/minimap2
 
 
 
@@ -43,40 +48,27 @@ jobs:
           command: |
             source activate samtools
             python -m unittest tests/test_samtools.py
-#  Test_fastp_bwa_fastqc_minimap2_picard_gatk4:
-#    docker:
-#      - image: continuumio/miniconda3:4.7.12
-#
-#    working_directory: ~/repo
-#
-#    steps:
-#      - checkout
-#      - run:
-#          name: "Pull Submodules"
-#          command: |
-#            git submodule init
-#            git submodule update --remote
-#      - restore_cache:
-#          keys:
-#            - v1-dependencies-{{ checksum "conda-env.yml" }}
-#
-#      - run:
-#          name: "conda environment build"
-#          command: |
-#            source activate base
-#            conda env update --file conda-env.yml --prune
-#
-#
-#      - save_cache:
-#          paths:
-#            - /opt/conda
-#          key: v1-dependencies-{{ checksum "conda-env.yml" }}
-#
-#      - run:
-#          name: run tests
-#          command: |
-#            source activate base
-#            sh test.sh
+
+  test_minimap2:
+    docker:
+      - image: continuumio/miniconda3:4.7.12
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-conda-environments-{{ checksum "conda-envs/minimap2.yml" }}
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update --remote
+
+      - run:
+          name: "minimap2 test"
+          command: |
+            source activate minimap2
+            python -m unittest tests/teet_minimap2.py
 #
 #      - store_artifacts:
 #          path: test-reports
@@ -88,5 +80,8 @@ workflows:
     jobs:
       - build
       - test_samtools:
+          requires:
+            - build
+      - test_minimap2:
           requires:
             - build
