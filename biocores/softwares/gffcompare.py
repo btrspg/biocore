@@ -38,7 +38,7 @@ class Gffcompare(Task):
         :return:
         '''
         cmd = ''
-        if None != gtflist:
+        if None is not gtflist:
             cmd = cmd + ' -i ' + gtflist
         else:
             cmd = cmd + ' '.join(gtfs)
