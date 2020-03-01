@@ -11,9 +11,10 @@ from __future__ import absolute_import, unicode_literals
 from collections import namedtuple
 
 # fastp
-fastpDefault = namedtuple('fastpDefault', ['default'])
-fastpDefault.default = ' -c '
-
+fastpDefault = namedtuple('fastpDefault', ['default', 'pe', 'se'])
+fastpDefault.default = ' -c  '
+fastpDefault.pe = ' --detect_adapter_for_pe'
+fastpDefault.se = ' '
 # mkdir
 mkdirDefault = namedtuple('mkdirDefault', ['default'])
 mkdirDefault.default = ' -p '
@@ -23,15 +24,18 @@ fastqcDefault = namedtuple('fastqcDefault', ['default'])
 fastqcDefault.default = ''
 
 # star
-starDefault = namedtuple('starDefault', ['align', 'nt', 'rl'])
+starDefault = namedtuple('starDefault', ['align', 'build_index', 'nt', 'rl'])
 starDefault.align = '--outSAMstrandField intronMotif --readFilesCommand zcat \
      --outSAMtype BAM SortedByCoordinate'
+starDefault.build_index = ' --runMode genomeGenerate '
 starDefault.nt = 8
 starDefault.rl = 99
 
 # hisat2
-hisat2Default = namedtuple('hisat2Default', ['align'])
+hisat2Default = namedtuple('hisat2Default', ['align', 'build_index', 'nt'])
 hisat2Default.align = ' --dta -5 10 -3 10 '
+hisat2Default.build_index = ''
+hisat2Default.nt = ' 16 '
 
 # samtools
 samtoolsDefault = namedtuple('samtoolsDefault', ['sam2bam', 'sort', 'index'])
@@ -84,6 +88,15 @@ kallistoDefault.nt = 16
 # minimap2
 minimap2Default = namedtuple('minimap2Default', ['default', 'align_paras'])
 minimap2Default.default = ' -I 10G '
+
+# mirdeep2
+mirdeep2Default = namedtuple('mirdeep2Default', ['default', 'align_paras','mirdeep2'])
+mirdeep2Default.align_paras = ' -v -e -h -i -j -l 18 -m -o 4 '
+mirdeep2Default.mirdeep2 = ''
+
+# gatk4
+gatk4Default = namedtuple('gatk4Default', ['java_options'])
+gatk4Default.java_options=JAVA_OPTIONS
 
 # OLD PARAMETERS=========================================================================
 # bwa

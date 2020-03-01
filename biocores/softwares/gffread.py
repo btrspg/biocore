@@ -27,7 +27,7 @@ class Gffread(Task):
             software=self._software
         )
 
-    def cmd_gffread(self, reference,gtf,output_fasta):
+    def cmd_gffread(self, reference, gtf, output_fasta):
         '''
 
         :param reference:

@@ -10,7 +10,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from biocores.bases.tasks import Task
-
+from biocores import utils
 
 class Minimap2(Task):
     def __init__(self, software, fd):
@@ -26,7 +26,7 @@ class Minimap2(Task):
             repr=self.__repr__(),
             software=self._software
         )
-
+    @utils.modify_cmd
     def cmd_align(self, reference, fq_fa, output, preset_options=' -x splice:hq'):
         '''
 

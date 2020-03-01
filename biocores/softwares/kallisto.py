@@ -10,6 +10,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from biocores.bases.tasks import Task
+from biocores import utils
 
 
 class Kallisto(Task):
@@ -27,6 +28,7 @@ class Kallisto(Task):
             software=self._software
         )
 
+    @utils.modify_cmd
     def cmd_build_index(self, reference, index_dir):
         '''
 
@@ -43,7 +45,8 @@ class Kallisto(Task):
             index_paras=self._default.index_paras
         )
 
-    def cmd_read_count(self, index_dir, outdir, fq1,fq2,nt=None):
+    @utils.modify_cmd
+    def cmd_read_count(self, index_dir, outdir, fq1, fq2, nt=None):
         '''
 
         :param reference:

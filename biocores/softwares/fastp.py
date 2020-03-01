@@ -41,23 +41,25 @@ class Fastp(Task):
         '''
         if fq2 == '':
             return r'''
-{software} {fastp_paras} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
+{software} {fastp_paras} {se} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
             --json {report_prefix}.fastp.json   
             '''.format(
                 fastp_paras=self._default.default,
                 software=self._software,
                 fq1=fq1,
                 cfq1=cfq1,
-                report_prefix=report_prefix
+                report_prefix=report_prefix,
+                se=self._default.se
             )
         else:
             return r'''
-{software} {fastp_paras} -i {fq1} -I {fq2} -o {cfq1} -O {cfq2} --html {report_prefix}.fastp.html \
+{software} {fastp_paras}  {pe} -i {fq1} -I {fq2} -o {cfq1} -O {cfq2} --html {report_prefix}.fastp.html \
             --json {report_prefix}.fastp.json 
             '''.format(
 
                 fastp_paras=self._default.default,
                 software=self._software,
+                pe=self._default.pe,
                 **locals())
 
     def __repr__(self):
@@ -66,26 +68,3 @@ class Fastp(Task):
     def __str__(self):
         return 'A tool designed to provide fast all-in-one preprocessing for FastQ files. This tool is developed ' \
                'in C++ with multithreading supported to afford high performance.'
-
-
-def test():
-    fastp = Fastp('pipeline')
-    print(fastp.cmd_version())
-    print(fastp.cmd_clean_data('/opt/tmp/test/AS2818.clean.1.fq.gz',
-                               '/opt/tmp/test/testpe.clean.1.fq.gz',
-                               '/opt/tmp/test/AS2818.clean.2.fq.gz',
-                               '/opt/tmp/test/testpe.clean.2.fq.gz',
-                               '/opt/tmp/test/testpe'))
-    print(fastp.cmd_clean_data('/opt/tmp/test/AS2818.clean.1.fq.gz',
-                               '/opt/tmp/test/testse.clean.1.fq.gz',
-                               '',
-                               '',
-                               '/opt/tmp/test/test-se'))
-
-
-def main():
-    test()
-
-
-if __name__ == '__main__':
-    main()

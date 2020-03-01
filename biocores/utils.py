@@ -12,7 +12,12 @@ from __future__ import absolute_import, unicode_literals
 import os
 import random
 import string
+import tempfile
 from functools import wraps
+
+
+def get_tempfile():
+    return tempfile.gettempdir()
 
 
 def random_string(number=8):

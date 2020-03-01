@@ -28,6 +28,31 @@ class Star(Task):
         )
 
     @utils.modify_cmd
+    def cmd_build_index(self, star_index_dir, reference, gtf, read_length):
+        '''
+
+        :param star_index_dir:
+        :param reference:
+        :param gtf:
+        :param read_length:
+        :return:
+        '''
+        return r'''
+{star} --runThreadN {nt} \
+        --genomeDir {star_index_dir} \
+        --genomeFastaFiles {reference} \
+        --sjdbGTFfile {gtf} \
+        --sjdbOverhang {rl}        
+        '''.format(
+            star=self._software,
+            nt=self._default.nt,
+            star_index_dir=star_index_dir,
+            reference=reference,
+            gtf=gtf,
+            rl=read_length
+        )
+
+    @utils.modify_cmd
     def cmd_align(self, star_idx, fq1, fq2, prefix, gtf, sampleid='TEST',
                   lane='L1', platform='Illumina', readlength=None, threads=None):
         '''

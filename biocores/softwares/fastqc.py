@@ -15,12 +15,10 @@ from biocores.softwares.default import *
 
 
 class Fastqc(Task):
-    def __init__(self, software,fd):
+    def __init__(self, software, fd):
         super(Fastqc, self).__init__(software)
-        self._default=fd
+        self._default = fd
         # self._environment is exec for docker container
-
-
 
     def cmd_version(self):
         '''
@@ -33,7 +31,7 @@ class Fastqc(Task):
         )
 
     @utils.modify_cmd
-    def cmd_fastqc_stat(self, outdir,fq1,fq2=''):
+    def cmd_fastqc_stat(self, outdir, fq1, fq2=''):
         '''
 
         :param outdir:
@@ -53,6 +51,3 @@ class Fastqc(Task):
 
     def __str__(self):
         return 'A quality control tool for high throughput sequence data.'
-
-
-
