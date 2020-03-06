@@ -15,7 +15,7 @@ from biocores.softwares.default import *
 
 
 class Picard(Task):
-    def __init__(self, software,fd):
+    def __init__(self, software, fd):
         super(Picard, self).__init__(software)
         self._default = fd
 
@@ -25,29 +25,27 @@ class Picard(Task):
         )
 
     @utils.special_tmp
-    def cmd_quality_score_distribution(self, bam_file, qc_prefix, tmp):
+    def cmd_collect_alignment_summary_metrics(self, bam, reference, qc_prefix, tmp='/tmp/'):
         '''
 
-        :param bam_file:
+        :param bam:
+        :param reference:
         :param qc_prefix:
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ', *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
+
         return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} {qualityscoredistribution_command} \
-            INPUT={bam_file} \
-            O={qc_prefix}.qual_score_dist.txt \
-            CHART={qc_prefix}.qual_score_dist.pdf ' 
+{software} -Djava.io.tmpdir={tmp} CollectAlignmentSummaryMetrics \
+          R={reference} \
+          I={bam} \
+          O={qc_prefix}.CollectAlignmentSummaryMetrics.txt
         '''.format(
-            environment=self._environment,
             software=self._software,
-            common_paras=self._common_paras,
-            qualityscoredistribution_command=PICARD_QUALITY_SCORE_DISTRIBUTION_DEFALUT,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals()
+            tmp=tmp,
+            reference=reference,
+            bam=bam,
+            qc_prefix=qc_prefix
         )
 
     @utils.special_tmp
@@ -60,107 +58,77 @@ class Picard(Task):
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
         return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} {collect_gc_bias_command}  \
-    I={bam_file} \
-    O={qc_prefix}.gc_bias_metrics.txt \
-    CHART={qc_prefix}.gc_bias_metrics.pdf \
-    S={qc_prefix}.summary_metrics.txt \
-    R={reference}    '
+{software} -Djava.io.tmpdir={tmp}  CollectGcBiasMetrics \
+      I={bam_file} \
+      O={qc_prefix}.gc_bias_metrics.txt \
+      CHART={qc_prefix}.gc_bias_metrics.pdf \
+      S={qc_prefix}.summary_metrics.txt \
+      R={reference}
         '''.format(
-            environment=self._environment,
             software=self._software,
-            collect_gc_bias_command=PICARD_COLLECT_GC_BIAS_METRICS_DEFALUT,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
+            tmp=tmp,
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            reference=reference
+        )
 
     @utils.special_tmp
-    def cmd_collect_wgs_metrics(self, bam_file, qc_prefix, reference, tmp):
+    def cmd_collect_hs_metrics(self, bam_file, qc_prefix, reference, bait_interval,
+                               target_interval, tmp):
         '''
 
         :param bam_file:
         :param qc_prefix:
         :param reference:
+        :param bait_interval:
+        :param target_interval:
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
+
         return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} {collect_wgs_metrics_command} \
-    I={bam_file} \
-    O={qc_prefix}.collect_wgs_metrics.txt \
-    R={reference}   '
+{software} -Djava.io.tmpdir={tmp} CollectHsMetrics \
+      I={bam_file} \
+      O={qc_prefix}.hs_metrics.txt \
+      R={reference} \
+      BAIT_INTERVALS={bait_interval} \
+      TARGET_INTERVALS={target_interval}
         '''.format(
-            environment=self._environment,
             software=self._software,
-            common_paras=self._common_paras,
-            collect_wgs_metrics_command=PICARD_COLLECT_WGS_MERTICS,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals()
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            reference=reference,
+            bait_interval=bait_interval,
+            target_interval=target_interval,
+            tmp=tmp
         )
 
     @utils.special_tmp
-    def cmd_markdup(self, rawbam, markdupbam, dupstat, tmp):
+    def cmd_collect_insert_size_metrics(self, rawbam, qc_prefix, tmp):
         '''
 
         :param rawbam:
-        :param markdupbam:
-        :param dupstat:
+        :param qc_prefix:
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_file(markdupbam, dupstat),
-                                        *utils.dirs_for_dirs(tmp))
         return r'''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} {markdup_command} \
-            I={rawbam} O={markdupbam} M={dupstat}'
-{environment} 'samtools index {markdupbam}'
+{software} -Djava.io.tmpdir={tmp}  CollectInsertSizeMetrics \
+      I={bam} \
+      O={qc_prefix}.insert_size_metrics.txt \
+      H={qc_prefix}.insert_size_histogram.pdf \
+      M=0.5
         '''.format(
-            environment=self._environment,
+
             software=self._software,
-            markdup_command=PICARD_MARKDUP_DEFAULT,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals()
+            tmp=tmp,
+            bam=rawbam,
+            qc_prefix=qc_prefix
         )
 
     @utils.special_tmp
-    def cmd_estimate_library_complexity(self, bam_file, qc_prefix, tmp):
-        '''
-
-        :param bam_file:
-        :param qc_prefix:
-        :param tmp:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} EstimateLibraryComplexity \
-    INPUT={bam_file} \
-    O={qc_prefix}.est_lib_complex_metrics.txt  '  
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_oxo_g_metrics(self, bam_file, qc_prefix, reference, tmp):
+    def cmd_collect_oxoG_metrics(self, bam_file, qc_prefix, reference, tmp):
         '''
 
         :param bam_file:
@@ -169,140 +137,18 @@ class Picard(Task):
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectOxoGMetrics \
-    I={bam_file} \
-    O={qc_prefix}.oxoG_metrics.txt \
-    R={reference}'
+        return r'''
+{software} -Djava.io.tmpdir={tmp}  CollectOxoGMetrics \
+      I={bam_file} \
+      O={qc_prefix}.oxoG_metrics.txt \
+      R={reference}
         '''.format(
-            environment=self._environment,
             software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_wgs_metrics_with_non_zero_coverage(self, bam_file, qc_prefix, reference, tmp):
-        '''
-
-        :param bam_file:
-        :param qc_prefix:
-        :param reference:
-        :param tmp:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectWgsMetricsWithNonZeroCoverage \
-    I={bam_file} \
-    O={qc_prefix}.collect_wgs_metrics_with_non_zero_coverage.txt \
-    CHART={qc_prefix}.collect_wgs_metrics_with_non_zero_coverage.pdf  \
-    R={reference}   '
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_hs_metrics(self, bam_file, qc_prefix, reference, bait_interval_list, target_interval_list, tmp):
-        '''
-
-        :param picard:
-        :param bam_file:
-        :param qc_prefix:
-        :param reference:
-        :param bait_interval_list:
-        :param target_interval_list:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectHsMetrics \
-    I={bam_file} \
-    O={qc_prefix}_hs_metrics.txt \
-    R={reference} \
-    BAIT_INTERVALS={bait_interval_list} \
-    TARGET_INTERVALS={target_interval_list}    '
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_insert_size_metrics(self, bam_file, qc_prefix, tmp):
-        '''
-
-        :param bam_file:
-        :param qc_prefix:
-        :param tmp:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectInsertSizeMetrics \
-    I={bam_file} \
-    O={qc_prefix}.insert_size_metrics.txt \
-    H={qc_prefix}.insert_size_histogram.pdf \
-    M=0.5    '
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_targeted_pcr_metrics(self, bam_file, qc_prefix, reference, amplicon_interval_list,
-                                         targets_interval_list, tmp):
-        '''
-
-        :param bam_file:
-        :param qc_prefix:
-        :param reference:
-        :param amplicon_interval_list:
-        :param targets_interval_list:
-        :param tmp:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectTargetedPcrMetrics \
-    I={bam_file} \
-    O={qc_prefix}.output_pcr_metrics.txt \
-    R={reference} \
-    AMPLICON_INTERVALS={amplicon_interval_list} \
-    TARGET_INTERVALS={targets_interval_list}'
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
+            tmp=tmp,
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            reference=reference
+        )
 
     @utils.special_tmp
     def cmd_collect_raw_wgs_metrics(self, bam_file, qc_prefix, reference, tmp):
@@ -314,26 +160,78 @@ class Picard(Task):
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectRawWgsMetrics \
-    I={bam_file} \
-    O={qc_prefix}.output_raw_wgs_metrics.txt \
-    R={reference} \
-    INCLUDE_BQ_HISTOGRAM=true    '
-        '''.format(
-            environment=self._environment,
+
+        return '''
+{software} -Djava.io.tmpdir={tmp}  CollectRawWgsMetrics \
+          I={bam_file} \
+          O={qc_prefix}.raw_wgs_metrics.txt \
+          R={reference} \
+          INCLUDE_BQ_HISTOGRAM=true
+            '''.format(
             software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
+            tmp=tmp,
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            reference=reference
+        )
 
     @utils.special_tmp
-    def cmd_collect_quality_yield_metrics(self, bam_file, qc_prefix, tmp):
+    def cmd_collect_targeted_pcr_metrics(self, bam_file, qc_prefix, reference, amplicon_intervals,
+                                         target_intervals, tmp):
+        '''
+
+        :param bam_file:
+        :param qc_prefix:
+        :param reference:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} -Djava.io.tmpdir={tmp}  CollectTargetedPcrMetrics \
+           I={bam_file} \
+           O={qc_prefix}.pcr_metrics.txt \
+           R={reference} \
+           AMPLICON_INTERVALS={amplicon_intervals} \
+           TARGET_INTERVALS={target_intervals}
+            '''.format(
+            software=self._software,
+            bam_file=bam_file,
+            tmp=tmp,
+            qc_prefix=qc_prefix,
+            reference=reference,
+            amplicon_intervals=amplicon_intervals,
+            target_intervals=target_intervals
+        )
+
+    @utils.special_tmp
+    def cmd_collect_rna_seq_metrics(self, bam_file, qc_prefix, ref_flat, ribosomal_intervals, tmp):
+        '''
+
+        :param bam_file:
+        :param qc_prefix:
+        :param ref_flat:
+        :param ribosomal_intervals:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} -Djava.io.tmpdir={tmp}  CollectRnaSeqMetrics \
+          I={bam_file} \
+          O={qc_prefix}.RNA_Metrics \
+          REF_FLAT={ref_flat} \
+          STRAND=None \
+          RIBOSOMAL_INTERVALS={ribosomal_intervals}
+            '''.format(
+            software=self._software,
+            tmp=tmp,
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            ref_flat=ref_flat,
+            ribosomal_intervals=ribosomal_intervals
+        )
+
+    @utils.special_tmp
+    def cmd_collect_rrbs_metrics(self, bam_file, qc_prefix, reference, tmp):
         '''
 
         :param bam_file:
@@ -341,21 +239,18 @@ class Picard(Task):
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectQualityYieldMetrics \
-    I={bam_file} \
-    O={qc_prefix}.quality_yield_metrics.txt'    
-        '''.format(
-            environment=self._environment,
+        return r'''
+{software} -Djava.io.tmpdir={tmp}  CollectRrbsMetrics \
+          R={reference} \
+          I={bam_file} \
+          M={qc_prefix}.rrbs
+            '''.format(
             software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
+            tmp=tmp,
+            qc_prefix=qc_prefix,
+            bam_file=bam_file,
+            reference=reference
+        )
 
     @utils.special_tmp
     def cmd_collect_sequencing_artifact_metrics(self, bam_file, qc_prefix, reference, tmp):
@@ -364,80 +259,26 @@ class Picard(Task):
         :param bam_file:
         :param qc_prefix:
         :param reference:
+        :param amplicon_interval_list:
+        :param targets_interval_list:
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectSequencingArtifactMetrics \
-     I={bam_file} \
-     O={qc_prefix}.artifact_metrics.txt \
-     R={reference}    '
-        '''.format(
-            environment=self._environment,
+        return r'''
+{software}  -Djava.io.tmpdir={tmp}  CollectSequencingArtifactMetrics \
+         I={bam_file} \
+         O={qc_prefix}artifact_metrics.txt \
+         R={reference}
+            '''.format(
             software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
+            tmp=tmp,
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            reference=reference
+        )
 
     @utils.special_tmp
-    def cmd_mean_quality_by_cycle(self, bam_file, qc_prefix, tmp):
-        '''
-
-        :param bam_file:
-        :param qc_prefix:
-        :param tmp:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} MeanQualityByCycle \
-    INPUT={bam_file} \
-    O={qc_prefix}.mean_qual_by_cycle.txt \
-    CHART={qc_prefix}.mean_qual_by_cycle.pdf'
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_base_distribution_by_cycle(self, bam_file, qc_prefix, tmp):
-        '''
-
-        :param bam_file:
-        :param qc_prefix:
-        :param tmp:
-        :return:
-        '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectBaseDistributionByCycle \
-    CHART={qc_prefix}.collect_base_dist_by_cycle.pdf \
-    I={bam_file} \
-    O={qc_prefix}.collect_base_dist_by_cycle.txt'  
-        '''.format(
-            environment=self._environment,
-            software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
-
-    @utils.special_tmp
-    def cmd_collect_alignment_summary_metrics(self, bam_file, qc_prefix, reference, tmp):
+    def cmd_collect_wgs_metrics(self, bam_file, qc_prefix, reference, tmp):
         '''
 
         :param bam_file:
@@ -446,25 +287,65 @@ class Picard(Task):
         :param tmp:
         :return:
         '''
-        output_dirs = utils.string_dirs(' ',
-                                        *utils.dirs_for_dirs(tmp),
-                                        *utils.dirs_for_file(qc_prefix))
-        cmd = '''
-{environment} 'mkdir {mkdir_paras} {output_dirs}'
-{environment} '{software} {common_paras} -Djava.io.tmpdir={tmp} CollectAlignmentSummaryMetrics \
-    R={reference} \
-    I={bam_file} \
-    O={qc_prefix}.alignment_summary_metrics.txt'    
-        '''.format(
-            environment=self._environment,
+
+        return r'''
+{software}  -Djava.io.tmpdir={tmp}  CollectWgsMetrics \
+           I={bam_file} \
+           O={qc_prefix}.collect_wgs_metrics.txt \
+           R={reference}
+            '''.format(
             software=self._software,
-            common_paras=self._common_paras,
-            mkdir_paras=MKDIR_DEFAULT,
-            **locals())
-        return cmd
+            bam_file=bam_file,
+            tmp=tmp,
+            qc_prefix=qc_prefix,
+            reference=reference
+        )
+
+    @utils.special_tmp
+    def cmd_create_sequence_dictionary(self, reference, reference_dict, tmp):
+        '''
+
+        :param reference:
+        :param reference_dict:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} -Djava.io.tmpdir={tmp}  CreateSequenceDictionary \ 
+          R={reference} \ 
+          O={reference_dict}  
+            '''.format(
+            reference=reference,
+            software=self._software,
+            reference_dict=reference_dict,
+            tmp=tmp,
+        )
+
+    @utils.special_tmp
+    def cmd_mark_duplicates(self, bam_file, marked_bam, qc_prefix, tmp):
+        '''
+
+        :param bam_file:
+        :param marked_bam:
+        :param qc_prefix:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} -Djava.io.tmpdir={tmp}   MarkDuplicates \
+          I={bam_file} \
+          O={marked_bam}\
+          M={qc_prefix}marked_dup_metrics.txt
+            '''.format(
+            tmp=tmp,
+            software=self._software,
+            bam_file=bam_file,
+            qc_prefix=qc_prefix,
+            marked_bam=marked_bam
+        )
 
     def __repr__(self):
-        return 'picard:' + self._environment
+        return 'picard:' + self._software
 
     def __str__(self):
         return 'A set of command line tools (in Java) for manipulating high-throughput ' \
@@ -472,13 +353,7 @@ class Picard(Task):
 
 
 def test():
-    rawbam = '/opt/tmp/test/test.sort.bam'
-    markdupbam = '/opt/tmp/test/test.markdup.bam'
-    dupstat = '/opt/tmp/test/dupstate'
-    tmp = '/opt/tmp/test/tmp'
-    picard = Picard('pipeline')
-    print(picard.cmd_version())
-    print(picard.cmd_markdup(rawbam, markdupbam, dupstat, tmp=tmp))
+    pass
 
 
 def main():
