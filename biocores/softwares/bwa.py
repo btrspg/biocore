@@ -26,7 +26,7 @@ class Bwa(Task):
         )
 
     @utils.modify_cmd
-    def cmd_align(self, bwa_idx, fq1, fq2, samtools_idx, bam_file, samtools,sampleid='',
+    def cmd_align(self, bwa_idx, fq1, fq2, samtools_idx, bam_file, samtools, sampleid='',
                   lane='L1', platform='Illumina'):
         '''
 
@@ -65,7 +65,7 @@ class Bwa(Task):
         )
 
     def __repr__(self):
-        return 'bwa:' + self._environment
+        return 'bwa:' + self._software
 
     def __str__(self):
         return 'Burrow-Wheeler Aligner for short-read alignment'
