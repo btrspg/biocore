@@ -90,17 +90,21 @@ minimap2Default = namedtuple('minimap2Default', ['default', 'align_paras'])
 minimap2Default.default = ' -I 10G '
 
 # mirdeep2
-mirdeep2Default = namedtuple('mirdeep2Default', ['default', 'align_paras','mirdeep2'])
+mirdeep2Default = namedtuple('mirdeep2Default', ['default', 'align_paras', 'mirdeep2'])
 mirdeep2Default.align_paras = ' -v -e -h -i -j -l 18 -m -o 4 '
 mirdeep2Default.mirdeep2 = ''
 
 # gatk4
 gatk4Default = namedtuple('gatk4Default', ['java_options'])
-gatk4Default.java_options=JAVA_OPTIONS
+gatk4Default.java_options = JAVA_OPTIONS
+
+# bwa
+bwaDefault = namedtuple('bwaDefault',['mem'])
+bwaDefault.mem = ' mem -t 10 -k 32 -M '
 
 # OLD PARAMETERS=========================================================================
 # bwa
-BWA_MEM_DEFAULT = ' mem -t 10 -k 32 -M '
+BWA_MEM_DEFAULT = ' '
 BWA_ALN_DEFAULT = ' aln -l 19'
 BWA_SAMSE_DEFAULT = ' samse -n 10'
 
