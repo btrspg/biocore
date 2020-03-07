@@ -334,8 +334,10 @@ class Picard(Task):
         return r'''
 {software} -Djava.io.tmpdir={tmp}   MarkDuplicates \
           I={bam_file} \
-          O={marked_bam}\
+          O={marked_bam} \
           M={qc_prefix}marked_dup_metrics.txt
+{software} -Djava.io.tmpdir={tmp}  BuildBamIndex \
+          I={marked_bam} 
             '''.format(
             tmp=tmp,
             software=self._software,

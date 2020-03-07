@@ -13,7 +13,6 @@ from biocores import utils
 from biocores.bases.tasks import Task
 
 
-
 class Gatk4(Task):
     def __init__(self, software, fd):
         super(Gatk4, self).__init__(software)
@@ -27,6 +26,128 @@ class Gatk4(Task):
         return 'echo {repr} ; echo {software}'.format(
             repr=self.__repr__(),
             software=self._software
+        )
+
+    @utils.special_tmp
+    @utils.modify_cmd
+    def cmd_select_vcf(self, raw_vcf, snp_vcf, indel_vcf, reference, tmp):
+        return r'''
+{software} SelectVariants --tmp-dir {tmp} --java-options {java_options} \
+    --disable_auto_index_creation_and_locking_when_reading_rods \
+    -R {reference} \
+    --variant {raw_vcf} \
+    -o {snp_vcf} \
+    -selectType SNP -selectType MNP
+{software} SelectVariants --tmp-dir {tmp} --java-options {java_options} \
+    --disable_auto_index_creation_and_locking_when_reading_rods \
+    -R {reference} \
+    --variant {raw_vcf} \
+    -o {indel_vcf} \
+    -selectType INDEL
+        '''.format(
+            software=self._software,
+            tmp=tmp,
+            reference=reference,
+            raw_vcf=raw_vcf,
+            snp_vcf=snp_vcf,
+            indel_vcf=indel_vcf,
+            java_options=self._default.java_options
+        )
+
+    @utils.special_tmp
+    @utils.modify_cmd
+    def cmd_base_recalibrator(self, bam_file, out_bam, reference, known_sites, qc_prefix, tmp='/tmp'):
+        '''
+
+        :param bam:
+        :param out_bam:
+        :param reference:
+        :param known_sites:
+        :param qc_prefix:
+        :param tmp:
+        :return:
+        '''
+        if isinstance(known_sites, str):
+            ks = ' --known-sites ' + known_sites
+        elif isinstance(known_sites, list):
+            ks = ' '.join(['--known-sites {}'.format(i) for i in known_sites])
+        else:
+            raise TypeError('known-sites should be specific')
+        return r'''
+{software} BaseRecalibrator --tmp-dir {tmp} --java-options {java_options} \
+   -I {bam_file} \
+   -R {reference} \
+   {ks} \
+   -O {qc_prefix}.recal_data.table   
+{software} ApplyBQSR --tmp-dir {tmp} --java-options {java_options} \
+   -R {reference} \
+   -I {bam_file} \
+   --bqsr-recal-file {qc_prefix}.recal_data.table  \
+   -O {out_bam}     
+        '''.format(
+            software=self._software,
+            tmp=tmp,
+            java_options=self._default.java_options,
+            reference=reference,
+            ks=ks,
+            qc_prefix=qc_prefix,
+            bam_file=bam_file,
+            out_bam=out_bam
+        )
+
+    @utils.special_tmp
+    @utils.modify_cmd
+    def cmd_call_germline_mutation(self, bam_file, reference, target_interval, raw_vcf, tmp='/tmp'):
+        '''
+
+        :param bam_file:
+        :param reference:
+        :param target_interval:
+        :param raw_vcf:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} HaplotypeCaller --tmp-dir {tmp} --java-options {java_options} \
+    -R {reference} \
+    -I {bam_file} \
+    -L {target_interval} \ 
+    -O {raw_vcf} \
+    -ERC GVCF -stand-call-conf 10      
+        '''.format(
+            software=self._software,
+            reference=reference,
+            tmp=tmp,
+            target_interval=target_interval,
+            raw_vcf=raw_vcf,
+            bam_file=bam_file,
+            java_options=self._default.java_options
+
+        )
+
+    @utils.special_tmp
+    @utils.modify_cmd
+    def cmd_genotype_vcf(self, in_vcf, reference, out_vcf, tmp):
+        '''
+
+        :param in_vcf:
+        :param reference:
+        :param out_vcf:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} GenotypeGVCFs --tmp-dir {tmp} --java-options {java_options}  \
+    -R {reference} \
+    -V {in_vcf} \
+    -O {out_vcf}     
+        '''.format(
+            software=self._software,
+            tmp=tmp,
+            java_options=self._default.java_options,
+            in_vcf=in_vcf,
+            out_vcf=out_vcf,
+            reference=reference
         )
 
     @utils.special_tmp
