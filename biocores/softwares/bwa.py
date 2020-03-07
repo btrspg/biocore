@@ -47,8 +47,8 @@ class Bwa(Task):
     -R "@RG\tID:{lane}\tPL:{platform}\tLB:{sampleid}\tSM:{sampleid}" \
     {bwa_idx} {fq1} {fq2} \
     |{samtools} view -bSt {samtools_idx} - \
-    |{samtools} sort - -o {bam_file}'
-{samtools} index {bam_file}'
+    |{samtools} sort - -o {bam_file}
+{samtools} index {bam_file}
             '''.format(
             software=self._software,
             samtools=samtools,
