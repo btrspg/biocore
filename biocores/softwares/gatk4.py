@@ -214,8 +214,7 @@ class Gatk4(Task):
         )
 
     def __repr__(self):
-        return 'fastp:' + self._software
+        return 'gatk:' + self._software
 
     def __str__(self):
-        return 'A tool designed to provide fast all-in-one preprocessing for FastQ files. This tool is developed ' \
-               'in C++ with multithreading supported to afford high performance.'
+        return 'Genome Analysis Toolkit'
