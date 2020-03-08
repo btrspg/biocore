@@ -167,7 +167,7 @@ class Gatk4(Task):
             gr = '-germline-resource ' + genomad
         return r'''
 {software} Mutect2 --tmp-dir {tmp} --java-options {java_options} \
-    -I {t_bam} {control}
+    -I {t_bam} {control} \
     -O {outdir}/{t_id}.unfiltered.vcf \
     -R {reference} \
     -L {intervals} \
