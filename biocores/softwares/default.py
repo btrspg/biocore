@@ -96,10 +96,10 @@ mirdeep2Default.mirdeep2 = ''
 
 # gatk4
 gatk4Default = namedtuple('gatk4Default', ['java_options'])
-gatk4Default.java_options = JAVA_OPTIONS
+gatk4Default.java_options = '"' + JAVA_OPTIONS + '"'
 
 # bwa
-bwaDefault = namedtuple('bwaDefault',['mem'])
+bwaDefault = namedtuple('bwaDefault', ['mem'])
 bwaDefault.mem = ' mem -t 10 -k 32 -M '
 
 # OLD PARAMETERS=========================================================================
