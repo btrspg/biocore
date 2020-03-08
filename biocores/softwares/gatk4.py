@@ -111,7 +111,7 @@ class Gatk4(Task):
 {software} HaplotypeCaller --tmp-dir {tmp} --java-options {java_options} \
     -R {reference} \
     -I {bam_file} \
-    -L {target_interval} \ 
+    -L {target_interval} \
     -O {raw_vcf} \
     -ERC GVCF -stand-call-conf 10      
         '''.format(
@@ -171,7 +171,7 @@ class Gatk4(Task):
     -O {outdir}/{t_id}.unfiltered.vcf \
     -R {reference} \
     -L {intervals} \
-    {ponfile} {gr}
+    {ponfile} {gr} \
     --f1r2-tar-gz {outdir}/{t_id}.f1r2.tar.gz
     
 {software} LearnReadOrientationModel --tmp-dir {tmp} --java-options {java_options} \
