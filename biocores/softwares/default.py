@@ -102,6 +102,10 @@ gatk4Default.java_options = '"' + JAVA_OPTIONS + '"'
 bwaDefault = namedtuple('bwaDefault', ['mem'])
 bwaDefault.mem = ' mem -t 10 -k 32 -M '
 
+# msisensor
+msisensorDefault = namedtuple('msisensorDefault', ['msi'])
+msisensorDefault.msi = ' -c 15 '
+
 # OLD PARAMETERS=========================================================================
 # bwa
 BWA_MEM_DEFAULT = ' '
