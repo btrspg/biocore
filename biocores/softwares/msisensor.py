@@ -12,9 +12,9 @@ from __future__ import absolute_import, unicode_literals
 from biocores.bases.tasks import Task
 from biocores import utils
 
-class Msisenser(Task):
+class Msisensor(Task):
     def __init__(self, software, fd):
-        super(Msisenser, self).__init__(software)
+        super(Msisensor, self).__init__(software)
         self._default = fd
 
     def cmd_version(self):
