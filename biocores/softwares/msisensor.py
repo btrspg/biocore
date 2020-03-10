@@ -12,6 +12,7 @@ from __future__ import absolute_import, unicode_literals
 from biocores.bases.tasks import Task
 from biocores import utils
 
+
 class Msisensor(Task):
     def __init__(self, software, fd):
         super(Msisensor, self).__init__(software)
@@ -26,6 +27,7 @@ class Msisensor(Task):
             repr=self.__repr__(),
             software=self._software
         )
+
     @utils.modify_cmd
     def cmd_scan_reference(self, reference, msi_list):
         '''
@@ -43,7 +45,7 @@ class Msisensor(Task):
         )
 
     @utils.modify_cmd
-    def cmd_call_msi(self,t_bam,c_bam,msi_list,output):
+    def cmd_call_msi(self, t_bam, c_bam, msi_list, output):
         '''
 
         :param t_bam:
@@ -72,4 +74,3 @@ class Msisensor(Task):
 
     def __str__(self):
         return 'microsatellite instability detection using tumor only or paired tumor-normal data'
-

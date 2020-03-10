@@ -106,6 +106,12 @@ bwaDefault.mem = ' mem -t 10 -k 32 -M '
 msisensorDefault = namedtuple('msisensorDefault', ['msi'])
 msisensorDefault.msi = ' -c 15 '
 
+# cnvkit
+cnvkitDefault = namedtuple('cnvkitDefault', ['batch', 'segment', 'germline_call','somatic_call'])
+cnvkitDefault.batch = 'batch --drop-low-coverage --scatter --diagram '
+cnvkitDefault.segment = 'segment '
+cnvkitDefault.germline_call = ' call -t=-1.5,-0.6,0.6,1.3 '
+cnvkitDefault.somatic_call = ' call -m clonal  -y '
 # OLD PARAMETERS=========================================================================
 # bwa
 BWA_MEM_DEFAULT = ' '
@@ -154,9 +160,6 @@ MULTIQC_DEFAULT = '-f --title "Aegicare Bioinformatics Analysis" --data-format j
 
 # cnvkit
 
-CNVKIT_BATCH_DEFAULT = 'batch -y --drop-low-coverage --scatter --diagram '
-CNVKIT_SEGMENT_DEFAULT = 'segment '
-CNVKIT_CALL_DEFAULT = 'call -t=-1.5,-0.6,0.6,1.3 '
 
 # lumpy
 
