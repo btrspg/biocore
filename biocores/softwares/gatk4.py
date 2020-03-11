@@ -152,7 +152,7 @@ class Gatk4(Task):
 
     @utils.special_tmp
     @utils.modify_cmd
-    def cmd_call_somatic_mutation(self, t_id, n_id, t_bam, n_bam, reference, intervals, pon, genomad,
+    def cmd_call_somatic_mutation(self, t_id, n_id, t_bam, n_bam, reference, intervals, pon, gnomad,
                                   common, outdir,final_vcf, tmp=utils.get_tempfile()):
         '''
 
@@ -163,7 +163,7 @@ class Gatk4(Task):
         :param reference:
         :param intervals:
         :param pon:
-        :param genomad:
+        :param gnomad:
         :param common:
         :param outdir:
         :param final_vcf:
@@ -179,8 +179,8 @@ class Gatk4(Task):
             control = ' -I ' + n_bam + ' -normal ' + n_id
         if None is not pon:
             ponfile = ' -pon ' + pon
-        if None is not genomad:
-            gr = '-germline-resource ' + genomad
+        if None is not gnomad:
+            gr = '-germline-resource ' + gnomad
         return r'''
 {software} Mutect2 --tmp-dir {tmp} --java-options {java_options} \
     -I {t_bam} \
