@@ -96,7 +96,7 @@ class Cnvkit(Task):
         )
 
     @utils.modify_cmd
-    def cmd_call_somatic_copy_number(self, cns, vcf, output, ctype='somatic'):
+    def cmd_call_copy_number(self, cns, vcf, output, ctype='somatic'):
         '''
 
         :param cns:
@@ -110,7 +110,7 @@ class Cnvkit(Task):
 {software} {call_paras} \
             -o {output} \
             -v {vcf} \
-            {cns}'     
+            {cns}
             '''.format(
             software=self._software,
             call_paras=self._default.somatic_call if ctype == 'somatic' else self._default.germline_call,
