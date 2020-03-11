@@ -32,7 +32,7 @@ class Cnvkit(Task):
         :return:
         '''
         return '''
-{software} sex -o {gender_out} {cnr}'
+{software} sex -o {gender_out} {cnr}
         '''.format(
             software=self._software,
             gender_out=gender_out,
