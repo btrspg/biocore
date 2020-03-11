@@ -153,7 +153,23 @@ class Gatk4(Task):
     @utils.special_tmp
     @utils.modify_cmd
     def cmd_call_somatic_mutation(self, t_id, n_id, t_bam, n_bam, reference, intervals, pon, genomad,
-                                  common, outdir, tmp=utils.get_tempfile()):
+                                  common, outdir,final_vcf, tmp=utils.get_tempfile()):
+        '''
+
+        :param t_id:
+        :param n_id:
+        :param t_bam:
+        :param n_bam:
+        :param reference:
+        :param intervals:
+        :param pon:
+        :param genomad:
+        :param common:
+        :param outdir:
+        :param final_vcf:
+        :param tmp:
+        :return:
+        '''
 
         control = ''
         gr = ''
@@ -196,7 +212,7 @@ class Gatk4(Task):
     --tumor-segmentation {outdir}/{t_id}.segments.table \
     --contamination-table {outdir}/{t_id}.contamination.table \
     --ob-priors {outdir}/{t_id}.read-orientation-model.tar.gz \
-    -O {outdir}/{t_id}.somatic.vcf \
+    -O {final_vcf} \
     -R {reference}
         '''.format(
             software=self._software,
@@ -206,6 +222,7 @@ class Gatk4(Task):
             common=common,
             control=control,
             gr=gr,
+            final_vcf=final_vcf,
             ponfile=ponfile,
             intervals=intervals,
             t_bam=t_bam,
