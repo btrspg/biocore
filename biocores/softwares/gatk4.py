@@ -68,8 +68,8 @@ class Gatk4(Task):
         :return:
         '''
         if isinstance(known_sites, str):
-            ks = ' --known-sites ' + known_sites
-        elif isinstance(known_sites, list):
+            known_sites = known_sites.split(',')
+        if isinstance(known_sites, list):
             ks = ' '.join(['--known-sites {}'.format(i) for i in known_sites])
         else:
             raise TypeError('known-sites should be specific')
