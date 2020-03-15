@@ -24,6 +24,7 @@ class Cnvkit(Task):
             repr=self.__repr__(),
             software=self._software
         )
+
     @utils.modify_cmd
     def cmd_infer_gender(self, cnr, gender_out):
         '''
@@ -56,15 +57,16 @@ class Cnvkit(Task):
         option = ''
         if None is not n_bam:
             option += ' --normal ' + n_bam + ' --output-reference ' + outdir + '/reference.cnn'
+            if None not in [target_bed, reference, ref_flat, access_bed]:
+                option += ' --targets {target_bed} --annotate {ref_flat} --fasta {reference} --access {access_bed} '.format(
+                    target_bed=target_bed,
+                    ref_flat=ref_flat,
+                    reference=reference,
+                    access_bed=access_bed
+                )
         elif None is not ref_cnn:
             option += ' -r ' + ref_cnn
-        if None not in [target_bed, reference, ref_flat, access_bed]:
-            option += ' --targets {target_bed} --annotate {ref_flat} --fasta {reference} --access {access_bed} '.format(
-                target_bed=target_bed,
-                ref_flat=ref_flat,
-                reference=reference,
-                access_bed=access_bed
-            )
+
         return r'''
 {software} {batch_paras} {t_bam} {option} \
     --output-dir {outdir}      
