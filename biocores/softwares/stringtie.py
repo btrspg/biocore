@@ -12,6 +12,7 @@ from __future__ import absolute_import, unicode_literals
 from biocores.bases.tasks import Task
 from biocores import utils
 
+
 class Stringtie(Task):
     def __init__(self, software, fd):
         super(Stringtie, self).__init__(software)
@@ -76,13 +77,11 @@ class Stringtie(Task):
 
         )
 
-
     def __repr__(self):
         return 'stringtie:' + self._software
 
     def __str__(self):
         return 'Transcript assembly and quantification for RNA-Seq'
-
 
 
 def main():
