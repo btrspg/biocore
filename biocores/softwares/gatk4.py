@@ -212,7 +212,7 @@ class Gatk4(Task):
     --tumor-segmentation {outdir}/{t_id}.segments.table \
     --contamination-table {outdir}/{t_id}.contamination.table \
     --ob-priors {outdir}/{t_id}.read-orientation-model.tar.gz \
-    -O {outdir}/{t_id}.unfiltered.somatic.vcf {final_vcf} \
+    -O {outdir}/{t_id}.unfiltered.somatic.vcf  \
     -R {reference}
 {software} SelectVariants --tmp-dir {tmp} --java-options {java_options} \
     --variant {outdir}/{t_id}.unfiltered.somatic.vcf \
