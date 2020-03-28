@@ -153,7 +153,7 @@ class Gatk4(Task):
     @utils.special_tmp
     @utils.modify_cmd
     def cmd_call_somatic_mutation(self, t_id, n_id, t_bam, n_bam, reference, intervals, pon, gnomad,
-                                  common, outdir,final_vcf, tmp=utils.get_tempfile()):
+                                  common, outdir, final_vcf, DP=50, AD=5, AF=0.05, tmp=utils.get_tempfile()):
         '''
 
         :param t_id:
@@ -167,6 +167,9 @@ class Gatk4(Task):
         :param common:
         :param outdir:
         :param final_vcf:
+        :param DP:
+        :param AD:
+        :param AF:
         :param tmp:
         :return:
         '''
@@ -214,8 +217,19 @@ class Gatk4(Task):
     --ob-priors {outdir}/{t_id}.read-orientation-model.tar.gz \
     -O {outdir}/{t_id}.unfiltered.somatic.vcf  \
     -R {reference}
+    
+{software} VariantFiltration --tmp-dir {tmp} --java-options {java_options} \
+    -R {reference} \
+    -V {outdir}/{t_id}.unfiltered.somatic.vcf \
+    -O {outdir}/{t_id}.filtered.somatic.vcf \
+    --filter-expression "DP < {DP}" \
+    --filter-name "DPfiltered" \
+    --filter-expression 'vc.getGenotype("{t_id}").getAD().0<{AD}' \
+    --filter-name "ADfiltered"  \
+    --filter-expression 'vc.getGenotype("{t_id}").getAD().0/vc.getGenotype("t_id").getDP() <{AF}' \
+    --filter-name "AFfiltered"
 {software} SelectVariants --tmp-dir {tmp} --java-options {java_options} \
-    --variant {outdir}/{t_id}.unfiltered.somatic.vcf \
+    --variant {outdir}/{t_id}.filtered.somatic.vcf \
     -select "vc.isNotFiltered()" \
     -O {final_vcf} \
     --sample-name {t_id}
@@ -232,7 +246,10 @@ class Gatk4(Task):
             intervals=intervals,
             t_bam=t_bam,
             tmp=tmp,
-            java_options=self._default.java_options
+            java_options=self._default.java_options,
+            DP=DP,
+            AD=AD,
+            AF=AF
 
         )
 
