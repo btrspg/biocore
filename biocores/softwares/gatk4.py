@@ -280,7 +280,7 @@ class Gatk4(Task):
     --filter-name "DPfiltered" \
     --filter-expression 'vc.getGenotype("{t_id}").getAD().0<{AD}' \
     --filter-name "ADfiltered"  \
-    --filter-expression 'vc.getGenotype("{t_id}").getAD().0/vc.getGenotype("t_id").getDP() <{AF}' \
+    --filter-expression 'vc.getGenotype("{t_id}").getAD().0/vc.getGenotype("{t_id}").getDP() <{AF}' \
     --filter-name "AFfiltered"
 {software} SelectVariants --tmp-dir {tmp} --java-options {java_options} \
     --variant {outdir}/{t_id}.filtered.somatic.vcf \
@@ -366,7 +366,7 @@ def main():
     gatk=Gatk4('gatk4',gatk4Default)
     print(gatk.cmd_create_pon(bams,'/aegis/database/human/hg19/enrichments/wes/idt/xgen-exome-research-panel-targets.v0.intervals',
                         '/aegis/database/human/hg19/annotations/hapmap_3.3_hg19_2nochr_pop_stratified_af.vcf',
-                        '/aegis/database/human/hg19/genome/v0/human_g1k_v37.fasta',
+                        '/aegis/database/human/hg19/aegicare-pipe-database/references/genomes/human_g1k_v37/sequences/v1/human_g1k_v37_modified.fasta',
                         '/aegis/temp/pon/pon_idt',
                         '/aegis/temp/tmp'))
 
