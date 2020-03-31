@@ -24,9 +24,15 @@ fastqcDefault = namedtuple('fastqcDefault', ['default'])
 fastqcDefault.default = ''
 
 # star
-starDefault = namedtuple('starDefault', ['align', 'build_index', 'nt', 'rl'])
-starDefault.align = '--outSAMstrandField intronMotif --readFilesCommand zcat \
-     --outSAMtype BAM SortedByCoordinate'
+starDefault = namedtuple('starDefault', ['align', 'mirna_align','build_index', 'nt', 'rl'])
+starDefault.align = '--outSAMstrandField intronMotif --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate'
+starDefault.mirna_align = '--alignEndsType EndToEnd --outFilterMismatchNmax 1 ' \
+                          '--outFilterMultimapScoreRange 0 --quantMode TranscriptomeSAM GeneCounts ' \
+                          '--outReadsUnmapped Fastx --outSAMtype BAM SortedByCoordinate ' \
+                          '--outFilterMultimapNmax 10 --outSAMunmapped Within ' \
+                          '--outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 ' \
+                          '--outFilterMatchNmin 16 --alignSJDBoverhangMin 1000 ' \
+                          '--alignIntronMax 1 --outWigType wiggle --outWigStrand Stranded --outWigNorm RPM'
 starDefault.build_index = ' --runMode genomeGenerate '
 starDefault.nt = 8
 starDefault.rl = 99

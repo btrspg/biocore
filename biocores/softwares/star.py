@@ -39,6 +39,7 @@ class Star(Task):
         '''
         return r'''
 {star} --runThreadN {nt} \
+        {build_index} \
         --genomeDir {star_index_dir} \
         --genomeFastaFiles {reference} \
         --sjdbGTFfile {gtf} \
@@ -49,7 +50,8 @@ class Star(Task):
             star_index_dir=star_index_dir,
             reference=reference,
             gtf=gtf,
-            rl=read_length
+            rl=read_length,
+            build_index=self._default.build_index
         )
 
     @utils.modify_cmd
@@ -63,11 +65,13 @@ class Star(Task):
         :param prefix:
         :param gtf:
         :param sampleid:
-        :param tmp:
         :param lane:
         :param platform:
+        :param readlength:
+        :param threads:
         :return:
         '''
+
         return r'''
 {star} {align_paras} \
     --genomeDir {star_idx} \
@@ -76,12 +80,14 @@ class Star(Task):
     --sjdbGTFfile {gtf}  \
     --runThreadN {nt} \
     --sjdbOverhang {rl} \
+    {mp} \
     --outSAMattrRGline "ID:RNA LB:{sampleid} SM:{sampleid} PL:{platform} PU:{platform}"      
             '''.format(
             star=self._software,
             align_paras=self._default.align,
-            nt=self._default.nt if None == threads else threads,
-            rl=self._default.rl if None == readlength else readlength,
+            nt=self._default.nt if None is threads else threads,
+            rl=self._default.rl if None is readlength else readlength,
+            mp='' if None is readlength else self._default.mirna_align,
             **locals()
         )
 
