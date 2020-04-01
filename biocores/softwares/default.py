@@ -28,7 +28,7 @@ starDefault = namedtuple('starDefault', ['align', 'mirna_align','build_index', '
 starDefault.align = '--outSAMstrandField intronMotif --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate'
 starDefault.mirna_align = '--alignEndsType EndToEnd --outFilterMismatchNmax 1 ' \
                           '--outFilterMultimapScoreRange 0 --quantMode TranscriptomeSAM GeneCounts ' \
-                          '--outReadsUnmapped Fastx --outSAMtype BAM SortedByCoordinate ' \
+                          '--outReadsUnmapped Fastx  ' \
                           '--outFilterMultimapNmax 10 --outSAMunmapped Within ' \
                           '--outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 ' \
                           '--outFilterMatchNmin 16 --alignSJDBoverhangMin 1000 ' \
