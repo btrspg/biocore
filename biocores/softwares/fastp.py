@@ -29,7 +29,7 @@ class Fastp(Task):
         )
 
     @utils.modify_cmd
-    def cmd_clean_data(self, fq1, cfq1, fq2, cfq2, report_prefix):
+    def cmd_clean_data(self, fq1, cfq1, fq2, cfq2, report_prefix, adapter_fasta=None):
         '''
 
         :param fq1:
@@ -37,19 +37,22 @@ class Fastp(Task):
         :param fq2:
         :param cfq2:
         :param report_prefix:
+        :param adapter_fasta:
         :return:
         '''
+
         if fq2 == '':
             return r'''
 {software} {fastp_paras} {se} -i {fq1} -o {cfq1} --html {report_prefix}.fastp.html \
-            --json {report_prefix}.fastp.json   
+            --json {report_prefix}.fastp.json {adapter_fasta}
             '''.format(
                 fastp_paras=self._default.default,
                 software=self._software,
                 fq1=fq1,
                 cfq1=cfq1,
                 report_prefix=report_prefix,
-                se=self._default.se
+                se=self._default.se,
+                adapter_fasta=adapter_fasta if adapter_fasta is not None else ''
             )
         else:
             return r'''
