@@ -52,7 +52,7 @@ class Fastp(Task):
                 cfq1=cfq1,
                 report_prefix=report_prefix,
                 se=self._default.se,
-                adapter_fasta=adapter_fasta if adapter_fasta is not None else ''
+                adapter_fasta='--adapter_fasta ' + adapter_fasta if adapter_fasta is not None else ''
             )
         else:
             return r'''
