@@ -24,7 +24,7 @@ fastqcDefault = namedtuple('fastqcDefault', ['default'])
 fastqcDefault.default = ''
 
 # star
-starDefault = namedtuple('starDefault', ['align', 'mirna_align','build_index', 'nt', 'rl'])
+starDefault = namedtuple('starDefault', ['align', 'mirna_align', 'build_index', 'nt', 'rl'])
 starDefault.align = '--outSAMstrandField intronMotif --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate'
 starDefault.mirna_align = '--alignEndsType EndToEnd --outFilterMismatchNmax 1 ' \
                           '--outFilterMultimapScoreRange 0 --quantMode TranscriptomeSAM GeneCounts ' \
@@ -105,15 +105,28 @@ gatk4Default = namedtuple('gatk4Default', ['java_options'])
 gatk4Default.java_options = '"' + JAVA_OPTIONS + '"'
 
 # bwa
-bwaDefault = namedtuple('bwaDefault', ['mem'])
+bwaDefault = namedtuple('bwaDefault', ['mem', 'mirna_align', 'build_index'])
+bwaDefault.build_index = ' index '
 bwaDefault.mem = ' mem -t 10 -k 32 -M '
+bwaDefault.mirna_align = ' aln -l 8 -o 0 '
+
+# bowtie
+bowtieDefault = namedtuple('bowtieDefault', ['align', 'mirna_align', 'build_index'])
+bowtieDefault.build_index = '  '
+bowtieDefault.mirna_align = ' -f -p 10 -k 100 --best --strata -S '
+
+# bowtie2
+bowtie2Default = namedtuple('bowtie2Default', ['align', 'mirna_align', 'build_index'])
+bowtie2Default.build_index = '  '
+bowtie2Default.mirna_align = ' -k 100 -f -p 20 --local --very-sensitive-local -x '
+
 
 # msisensor
 msisensorDefault = namedtuple('msisensorDefault', ['msi'])
 msisensorDefault.msi = ' -c 15 '
 
 # cnvkit
-cnvkitDefault = namedtuple('cnvkitDefault', ['batch', 'segment', 'germline_call','somatic_call'])
+cnvkitDefault = namedtuple('cnvkitDefault', ['batch', 'segment', 'germline_call', 'somatic_call'])
 cnvkitDefault.batch = 'batch --drop-low-coverage --scatter --diagram '
 cnvkitDefault.segment = 'segment '
 cnvkitDefault.germline_call = ' call -t=-1.5,-0.6,0.6,1.3 '

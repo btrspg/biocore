@@ -26,6 +26,58 @@ class Bwa(Task):
         )
 
     @utils.modify_cmd
+    def cmd_build_index(self,reference):
+        '''
+
+        :param reference:
+        :return:
+        '''
+        return r'''
+{software} {index_paras} {reference}        
+        '''.format(
+            software=self._software,
+            index_paras=self._default.index,
+            reference=reference
+        )
+
+    @utils.modify_cmd
+    def cmd_mirna_align(self, bwa_idx, fq, samtools_idx, bam_file, samtools, sampleid='', lane='L1',
+                        platform='Illumina'):
+        '''
+
+        :param bwa_idx:
+        :param fq:
+        :param samtools_idx:
+        :param bam_file:
+        :param samtools:
+        :param sampleid:
+        :param lane:
+        :param platform:
+        :return:
+        '''
+        return r'''
+{software} {bwa_mirna_paras} \
+    {bwa_idx} {fq} > {bam_file}.tmp.sai
+{software} samse -r "@RG\tID:{lane}\tPL:{platform}\tLB:{sampleid}\tSM:{sampleid}" \
+    {bwa_idx} {bam_file}.tmp.sai {fq} \
+    |{samtools} view -bSt {samtools_idx} - \
+    |{samtools} sort - -o {bam_file}
+{samtools} index {bam_file}
+                    '''.format(
+            software=self._software,
+            samtools=samtools,
+            bwa_mirna_paras=self._default.mirna_align,
+            lane=lane,
+            platform=platform,
+            sampleid=sampleid,
+            bwa_idx=bwa_idx,
+            fq=fq,
+            bam_file=bam_file,
+            samtools_idx=samtools_idx
+
+        )
+
+    @utils.modify_cmd
     def cmd_align(self, bwa_idx, fq1, fq2, samtools_idx, bam_file, samtools, sampleid='',
                   lane='L1', platform='Illumina'):
         '''
