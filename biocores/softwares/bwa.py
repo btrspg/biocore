@@ -36,7 +36,7 @@ class Bwa(Task):
 {software} {index_paras} {reference}        
         '''.format(
             software=self._software,
-            index_paras=self._default.index,
+            index_paras=self._default.build_index,
             reference=reference
         )
 
