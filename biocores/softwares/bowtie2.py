@@ -64,8 +64,8 @@ class Bowtie2(Task):
         :return:
         '''
         return r'''
-{software} {bowtie2_mirna_paras} --sam-RG "ID:{lane}\tPL:{platform}\tLB:{sampleid}\tSM:{sampleid}" \
-    {bowtie2_idx} {fq} \
+{software} {bowtie2_mirna_paras} --rg "ID:{lane}\tPL:{platform}\tLB:{sampleid}\tSM:{sampleid}" \
+    -x {bowtie2_idx} {fq} \
     |{samtools} view -bSt {samtools_idx} - \
     |{samtools} sort - -o {bam_file}
 {samtools} index {bam_file}

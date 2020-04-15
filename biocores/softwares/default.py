@@ -113,12 +113,12 @@ bwaDefault.mirna_align = ' aln -l 8 -o 0 '
 # bowtie
 bowtieDefault = namedtuple('bowtieDefault', ['align', 'mirna_align', 'build_index'])
 bowtieDefault.build_index = '  '
-bowtieDefault.mirna_align = ' -f -p 10 -k 100 --best --strata -S '
+bowtieDefault.mirna_align = ' -q -p 10 -k 100 --best --strata -S '
 
 # bowtie2
 bowtie2Default = namedtuple('bowtie2Default', ['align', 'mirna_align', 'build_index'])
 bowtie2Default.build_index = '  '
-bowtie2Default.mirna_align = ' -k 100 -f -p 20 --local --very-sensitive-local -x '
+bowtie2Default.mirna_align = ' -k 100 -q -p 20 --local --very-sensitive-local  '
 
 
 # msisensor
