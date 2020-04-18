@@ -78,6 +78,44 @@ class Hisat2(Task):
         )
 
     @utils.modify_cmd
+    def cmd_prepare_snp_ucsc(self,reference,snp_file,prefix):
+        '''
+
+        :param reference:
+        :param snp_file:
+        :param prefix:
+        :return:
+        '''
+        return r'''
+awk 'BEGIN{{OFS="\t"}} {{if($2 ~ /^chr/) {{$2 = substr($2, 4)}}; if($2 == "M") {{$2 = "MT"}} print}}' {snp_file} \
+    > {prefix}_snp.tmp
+{software} {reference} {snp_file} {prefix}        
+        '''.format(
+            software=self._hisat2_extract_snps_haplotypes_UCSC,
+            snp_file=snp_file,
+            prefix=prefix,
+            reference=reference
+        )
+
+    @utils.modify_cmd
+    def cmd_prepare_exon_ss(self,gtf_file,prefix):
+        '''
+
+        :param gtf_file:
+        :param prefix:
+        :return:
+        '''
+        return r'''
+{software1} {gtf_file} > {prefix}.ss
+{software2} {gtf_file} > {prefix}.exon
+        '''.format(
+            software1=self._hisat2_extract_splice_sites,
+            software2=self._hisat2_extract_exons,
+            gtf_file=gtf_file,
+            prefix=prefix
+        )
+
+    @utils.modify_cmd
     def cmd_align(self, hisat2_idx, fq1, fq2, summary, samtools, samtools_idx, outbam):
         '''
 
