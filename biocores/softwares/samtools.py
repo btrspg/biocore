@@ -30,6 +30,20 @@ class Samtools(Task):
         )
 
     @utils.modify_cmd
+    def cmd_faidx(self,reference):
+        '''
+
+        :param reference:
+        :return:
+        '''
+        return r'''
+{software} faidx {reference}       
+        '''.format(
+            software=self._software,
+            reference=reference
+        )
+
+    @utils.modify_cmd
     def cmd_sam2bam(self, samtools_idx, samfile, bamfile=None):
         '''
 
