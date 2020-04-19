@@ -86,6 +86,8 @@ class Hisat2(Task):
         :param prefix:
         :return:
         '''
+        if None is snp_file:
+            return 'echo No snp_file'
         return r'''
 awk 'BEGIN{{OFS="\t"}} {{if($2 ~ /^chr/) {{$2 = substr($2, 4)}}; if($2 == "M") {{$2 = "MT"}} print}}' {snp_file} \
     > {prefix}_snp.tmp
