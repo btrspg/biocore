@@ -255,7 +255,7 @@ class Gatk4(Task):
 {software} GetPileupSummaries --tmp-dir {tmp} --java-options {java_options} \
     -I {t_bam} \
     -V {common} \
-    -L {common} \
+    -L {intervals} \
     -O {outdir}/{t_id}.getpileupsummaries.table
     
 {software} CalculateContamination --tmp-dir {tmp} --java-options {java_options} \
