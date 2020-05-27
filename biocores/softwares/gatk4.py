@@ -279,9 +279,7 @@ class Gatk4(Task):
     --filter-expression "DP < {DP}" \
     --filter-name "DPfiltered" \
     --filter-expression 'vc.getGenotype("{t_id}").getAD().0<{AD}' \
-    --filter-name "ADfiltered"  \
-    --filter-expression 'vc.getGenotype("{t_id}").getAD().0/vc.getGenotype("{t_id}").getDP() <{AF}' \
-    --filter-name "AFfiltered"
+    --filter-name "ADfiltered"  
 {software} SelectVariants --tmp-dir {tmp} --java-options {java_options} \
     --variant {outdir}/{t_id}.filtered.somatic.vcf \
     -select "vc.isNotFiltered()" \
