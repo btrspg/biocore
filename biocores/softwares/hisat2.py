@@ -91,7 +91,7 @@ class Hisat2(Task):
         return r'''
 awk 'BEGIN{{OFS="\t"}} {{if($2 ~ /^chr/) {{$2 = substr($2, 4)}}; if($2 == "M") {{$2 = "MT"}} print}}' {snp_file} \
     > {prefix}_snp.tmp
-{software} {reference} {snp_file} {prefix}        
+{software} {reference} {prefix}_snp.tmp {prefix}        
         '''.format(
             software=self._hisat2_extract_snps_haplotypes_UCSC,
             snp_file=snp_file,
