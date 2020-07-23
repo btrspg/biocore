@@ -311,8 +311,8 @@ class Picard(Task):
         :return:
         '''
         return r'''
-{software} -Djava.io.tmpdir={tmp}  CreateSequenceDictionary \ 
-          R={reference} \ 
+{software} -Djava.io.tmpdir={tmp}  CreateSequenceDictionary \
+          R={reference} \
           O={reference_dict}  
             '''.format(
             reference=reference,
@@ -331,7 +331,7 @@ class Picard(Task):
         :return:
         '''
         return r'''
-{software} -Djava.io.tmpdir={tmp}  BedToIntervalList \ 
+{software} -Djava.io.tmpdir={tmp}  BedToIntervalList \
           I={bed} \
           O={intervals} \
           SD={reference_dict}  
