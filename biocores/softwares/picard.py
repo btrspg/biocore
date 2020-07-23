@@ -320,6 +320,28 @@ class Picard(Task):
             reference_dict=reference_dict,
             tmp=tmp,
         )
+    
+    @utils.special_tmp
+    def cmd_bed2intervals(self, bed, intervals,reference_dict, tmp):
+        '''
+
+        :param reference:
+        :param reference_dict:
+        :param tmp:
+        :return:
+        '''
+        return r'''
+{software} -Djava.io.tmpdir={tmp}  BedToIntervalList \ 
+          I={bed} \
+          O={intervals} \
+          SD={reference_dict}  
+            '''.format(
+            intervals=intervals,
+            bed=bed,
+            software=self._software,
+            reference_dict=reference_dict,
+            tmp=tmp,
+        )
 
     @utils.special_tmp
     def cmd_mark_duplicates(self, bam_file, marked_bam, qc_prefix, tmp):
