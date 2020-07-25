@@ -131,6 +131,12 @@ cnvkitDefault.batch = 'batch --drop-low-coverage --scatter --diagram '
 cnvkitDefault.segment = 'segment '
 cnvkitDefault.germline_call = ' call -t=-1.5,-0.6,0.6,1.3 '
 cnvkitDefault.somatic_call = ' call -m clonal  -y '
+
+
+# formattrans
+formattransDefault = namedtuple('formattransDefault', ['default'])
+formattransDefault.default = ''
+
 # OLD PARAMETERS=========================================================================
 # bwa
 BWA_MEM_DEFAULT = ' '
