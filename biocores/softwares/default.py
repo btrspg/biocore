@@ -137,6 +137,11 @@ cnvkitDefault.somatic_call = ' call -m clonal  -y '
 formattransDefault = namedtuple('formattransDefault', ['default'])
 formattransDefault.default = ''
 
+
+# featurecounts
+featurecountsDefault = namedtuple('featurecountsDefault', ['default'])
+featurecountsDefault.default = ' -T 12 -p -t exon -g gene_id '
+
 # OLD PARAMETERS=========================================================================
 # bwa
 BWA_MEM_DEFAULT = ' '
