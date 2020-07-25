@@ -35,7 +35,7 @@ class Formattrans(Task):
         '''
 
         return r'''
-{software} -f {fcs} {info} {prefix}
+{software} {info} {prefix} -f {fcs} 
         '''.format(
             software=self._fc2o,
             fcs=' '.join(featurecounts) if isinstance(featurecounts,list) else featurecounts,
