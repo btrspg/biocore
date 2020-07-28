@@ -219,7 +219,7 @@ class Picard(Task):
           I={bam_file} \
           O={qc_prefix}.RNA_Metrics \
           REF_FLAT={ref_flat} \
-          STRAND=None \
+          STRAND=NONE \
           RIBOSOMAL_INTERVALS={ribosomal_intervals}
             '''.format(
             software=self._software,
