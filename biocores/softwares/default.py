@@ -61,7 +61,7 @@ trinityDefault.nt = 16
 trinityDefault.default = '--seqType fq --full_cleanup'
 
 # java
-JAVA_OPTIONS = '-Xmx15g -XX:+UseParallelGC -XX:ParallelGCThreads=2'
+JAVA_OPTIONS = '-Xmx30g -XX:+UseParallelGC -XX:ParallelGCThreads=2'
 
 # picard
 picardDefault = namedtuple('picardDefault', ['java_options',

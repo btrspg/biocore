@@ -161,7 +161,7 @@ class Picard(Task):
         :return:
         '''
 
-        return '''
+        return r'''
 {software} -Djava.io.tmpdir={tmp}  CollectRawWgsMetrics \
           I={bam_file} \
           O={qc_prefix}.raw_wgs_metrics.txt \
@@ -265,11 +265,12 @@ class Picard(Task):
         :return:
         '''
         return r'''
-{software}  -Djava.io.tmpdir={tmp}  CollectSequencingArtifactMetrics \
+{software}  {java_option} -Djava.io.tmpdir={tmp}  CollectSequencingArtifactMetrics \
          I={bam_file} \
          O={qc_prefix}artifact_metrics.txt \
          R={reference}
             '''.format(
+            java_option=JAVA_OPTIONS,
             software=self._software,
             tmp=tmp,
             bam_file=bam_file,
@@ -289,11 +290,12 @@ class Picard(Task):
         '''
 
         return r'''
-{software}  -Djava.io.tmpdir={tmp}  CollectWgsMetrics \
+{software}  {java_option} -Djava.io.tmpdir={tmp}  CollectWgsMetrics \
            I={bam_file} \
            O={qc_prefix}.collect_wgs_metrics.txt \
            R={reference}
             '''.format(
+            java_option=JAVA_OPTIONS,
             software=self._software,
             bam_file=bam_file,
             tmp=tmp,
@@ -354,7 +356,7 @@ class Picard(Task):
         :return:
         '''
         return r'''
-{software} -Djava.io.tmpdir={tmp}   MarkDuplicates \
+{software} {java_option} -Djava.io.tmpdir={tmp}   MarkDuplicates \
           I={bam_file} \
           O={marked_bam} \
           M={qc_prefix}.marked_dup_metrics.txt
@@ -362,6 +364,7 @@ class Picard(Task):
           I={marked_bam} 
             '''.format(
             tmp=tmp,
+            java_option=JAVA_OPTIONS,
             software=self._software,
             bam_file=bam_file,
             qc_prefix=qc_prefix,
