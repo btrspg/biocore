@@ -25,17 +25,18 @@ class Featurecounts(Task):
         )
 
     @utils.modify_cmd
-    def cmd_featurecounts(self, bams,gtf,output,gene_name=True,ignore_dup=True):
+    def cmd_featurecounts(self, bams,gtf,output,tmp,gene_name=True,ignore_dup=True):
         '''
         '''
         return r'''
-{software} {paras} {ignore_dup} {gene_name} -a {gtf} -o {output} {bam_list}
+{software} {paras} {ignore_dup} {gene_name} -a {gtf} -o {output} --tmpDir {tmp} {bam_list} 
         '''.format(
             software=self._software,
             paras=self._default.default,
             ignore_dup=' --ignoreDup ' if ignore_dup else '',
             gene_name= '--extraAttributes gene_name ' if gene_name else '',
             gtf=gtf,
+            tmp=tmp,
             output=output,
             bam_list=' '.join(bams) if isinstance(bams,list) else bams,
           
