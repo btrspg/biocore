@@ -140,7 +140,7 @@ formattransDefault.default = ''
 
 # featurecounts
 featurecountsDefault = namedtuple('featurecountsDefault', ['default'])
-featurecountsDefault.default = ' -T 12 -p -t exon -g gene_id '
+featurecountsDefault.default = ' -T 12 -p -t exon -g gene_id -M '
 
 # OLD PARAMETERS=========================================================================
 # bwa
