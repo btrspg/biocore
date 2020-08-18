@@ -130,8 +130,21 @@ awk 'BEGIN{{OFS="\t"}} {{if($2 ~ /^chr/) {{$2 = substr($2, 4)}}; if($2 == "M") {
         :param outbam:
         :return:
         '''
-
-        return r'''
+        if None is fq2 or fq2 == '':
+            return r'''
+{hisat2} {align_paras} -x {hisat2_idx} -1 {fq1}  --summary-file {summary} | {samtools_sam2bam} | {samtools_sort}
+{samtools_index}
+ 
+            '''.format(
+            hisat2=self._software,
+            align_paras=self._default.align,
+            samtools_sam2bam=samtools.cmd_sam2bam(samtools_idx, '-', bamfile=None),
+            samtools_sort=samtools.cmd_sort('-', sortbam=outbam),
+            samtools_index=samtools.cmd_index(outbam),
+            **locals()
+        )
+        else:
+            return r'''
 {hisat2} {align_paras} -x {hisat2_idx} -1 {fq1} -2 {fq2} --summary-file {summary} | {samtools_sam2bam} | {samtools_sort}
 {samtools_index}
  
