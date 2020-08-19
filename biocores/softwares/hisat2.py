@@ -132,7 +132,7 @@ awk 'BEGIN{{OFS="\t"}} {{if($2 ~ /^chr/) {{$2 = substr($2, 4)}}; if($2 == "M") {
         '''
         if None is fq2 or fq2 == '':
             return r'''
-{hisat2} {align_paras} -x {hisat2_idx} -1 {fq1}  --summary-file {summary} | {samtools_sam2bam} | {samtools_sort}
+{hisat2} {align_paras} -x {hisat2_idx} -U {fq1}  --summary-file {summary} | {samtools_sam2bam} | {samtools_sort}
 {samtools_index}
  
             '''.format(
